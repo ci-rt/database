@@ -1,0 +1,1 @@
+Database scheme required for ci-web and jenkins of CI-RT project
