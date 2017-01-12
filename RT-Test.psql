@@ -174,6 +174,19 @@ ALTER TABLE boottest_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE boottest_id_seq OWNED BY boottest.id;
 
+--
+-- Name: boottest_view; Type: VIEW; Schema: public; Owner: consumer
+--
+
+CREATE VIEW boottest_view AS
+ SELECT b.id,
+    b.target_id,
+    b.cmdline,
+    b.pass
+   FROM boottest b;
+
+
+ALTER TABLE boottest_view OWNER TO consumer;
 
 --
 -- Name: cirtbranch; Type: TABLE; Schema: public; Owner: postgres
@@ -272,6 +285,22 @@ ALTER SEQUENCE compiletest_id_seq OWNED BY compiletest.id;
 
 
 --
+-- Name: build; Type: VIEW; Schema: public; Owner: consumer
+--
+
+CREATE VIEW build AS
+ SELECT c.id,
+    c."overlay",
+    c.defconfig,
+    c.pass,
+    c.configname AS config,
+    c.buildcmd AS testscript
+   FROM compiletest c;
+
+
+ALTER TABLE build OWNER TO consumer;
+
+--
 -- Name: cyclictest; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -294,6 +323,26 @@ CREATE TABLE cyclictest (
 
 
 ALTER TABLE cyclictest OWNER TO postgres;
+
+--
+-- Name: cyclictest_view; Type: VIEW; Schema: public; Owner: consumer
+--
+
+CREATE VIEW cyclictest_view AS
+ SELECT c.id,
+    c.description AS load,
+    c.duration,
+    c."interval",
+    c.min,
+    c.avg,
+    c.max,
+    c.boottest_id,
+    c.pass,
+    c.threshold
+   FROM cyclictest c;
+
+
+ALTER TABLE cyclictest_view OWNER TO consumer;
 
 --
 -- Name: target; Type: TABLE; Schema: public; Owner: postgres
@@ -437,6 +486,19 @@ CREATE SEQUENCE hibernate_sequence
 ALTER TABLE hibernate_sequence OWNER TO postgres;
 
 --
+-- Name: git_view; Type: VIEW; Schema: public; Owner: consumer
+--
+
+CREATE VIEW git_view AS
+ SELECT g.id,
+    g.httprepo,
+    g.path
+   FROM git g;
+
+
+ALTER TABLE git_view OWNER TO consumer;
+
+--
 -- Name: histogram; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -472,6 +534,20 @@ ALTER TABLE histogram_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE histogram_id_seq OWNED BY histogram.id;
 
+
+--
+-- Name: histogram_view; Type: VIEW; Schema: public; Owner: consumer
+--
+
+CREATE VIEW histogram_view AS
+ SELECT h.thread as cpu,
+    h.latency,
+    h.count,
+    h.cyclictest_id
+   FROM histogram h;
+
+
+ALTER TABLE histogram_view OWNER TO consumer;
 
 --
 -- Name: label; Type: TABLE; Schema: public; Owner: postgres
