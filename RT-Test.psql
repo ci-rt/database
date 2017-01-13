@@ -79,22 +79,27 @@ DROP TABLE IF EXISTS public.minavgmax;
 DROP SEQUENCE IF EXISTS public.label_id_seq;
 DROP VIEW IF EXISTS public.kbuild;
 DROP TABLE IF EXISTS public.label;
+DROP VIEW IF EXISTS public.histogram_view;
 DROP SEQUENCE IF EXISTS public.histogram_id_seq;
 DROP TABLE IF EXISTS public.histogram;
 DROP SEQUENCE IF EXISTS public.hibernate_sequence;
+DROP VIEW IF EXISTS public.git_view;
 DROP SEQUENCE IF EXISTS public.git_id_seq;
 DROP TABLE IF EXISTS public.git;
 DROP VIEW IF EXISTS public.donut;
 DROP VIEW IF EXISTS public.detail;
+DROP VIEW IF EXISTS public.cyclictest_view;
 DROP SEQUENCE IF EXISTS public.cyclictest_id_seq;
 DROP VIEW IF EXISTS public.cyc_target;
 DROP TABLE IF EXISTS public.target;
 DROP TABLE IF EXISTS public.cyclictest;
 DROP SEQUENCE IF EXISTS public.compiletest_id_seq;
-DROP TABLE IF EXISTS public.compiletest;
 DROP SEQUENCE IF EXISTS public.cirtscheduler_id_seq;
 DROP TABLE IF EXISTS public.cirtscheduler;
 DROP TABLE IF EXISTS public.cirtbranch;
+DROP VIEW IF EXISTS public.build;
+DROP TABLE IF EXISTS public.compiletest;
+DROP VIEW IF EXISTS public.boottest_view;
 DROP SEQUENCE IF EXISTS public.boottest_id_seq;
 DROP TABLE IF EXISTS public.boottest;
 DROP EXTENSION IF EXISTS plpgsql;
@@ -174,6 +179,7 @@ ALTER TABLE boottest_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE boottest_id_seq OWNED BY boottest.id;
 
+
 --
 -- Name: boottest_view; Type: VIEW; Schema: public; Owner: consumer
 --
@@ -187,6 +193,44 @@ CREATE VIEW boottest_view AS
 
 
 ALTER TABLE boottest_view OWNER TO consumer;
+
+--
+-- Name: compiletest; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE compiletest (
+    id integer NOT NULL,
+    custom_commit character varying(40),
+    defconfig bytea NOT NULL,
+    "overlay" character varying(45) NOT NULL,
+    pass boolean NOT NULL,
+    cirtscheduler_id integer NOT NULL,
+    configname character varying(80) NOT NULL,
+    arch character varying(20) NOT NULL,
+    buildcmd bytea NOT NULL,
+    owner text DEFAULT 'consumer'::text NOT NULL,
+    notes character varying(1024),
+    buildlog bytea NOT NULL
+);
+
+
+ALTER TABLE compiletest OWNER TO postgres;
+
+--
+-- Name: build; Type: VIEW; Schema: public; Owner: consumer
+--
+
+CREATE VIEW build AS
+ SELECT c.id,
+    c."overlay",
+    c.defconfig,
+    c.pass,
+    c.configname AS config,
+    c.buildcmd AS testscript
+   FROM compiletest c;
+
+
+ALTER TABLE build OWNER TO consumer;
 
 --
 -- Name: cirtbranch; Type: TABLE; Schema: public; Owner: postgres
@@ -215,7 +259,7 @@ CREATE TABLE cirtscheduler (
     pass boolean NOT NULL,
     owner text DEFAULT 'consumer'::text NOT NULL,
     notes character varying(1024),
-    processing boolean DEFAULT TRUE NOT NULL
+    processing boolean DEFAULT true NOT NULL
 );
 
 
@@ -243,28 +287,6 @@ ALTER SEQUENCE cirtscheduler_id_seq OWNED BY cirtscheduler.id;
 
 
 --
--- Name: compiletest; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE compiletest (
-    id integer NOT NULL,
-    custom_commit character varying(40),
-    defconfig bytea NOT NULL,
-    "overlay" character varying(45) NOT NULL,
-    pass boolean NOT NULL,
-    cirtscheduler_id integer NOT NULL,
-    configname character varying(80) NOT NULL,
-    arch character varying(20) NOT NULL,
-    buildcmd bytea NOT NULL,
-    owner text DEFAULT 'consumer'::text NOT NULL,
-    notes character varying(1024),
-    buildlog bytea NOT NULL
-);
-
-
-ALTER TABLE compiletest OWNER TO postgres;
-
---
 -- Name: compiletest_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -284,22 +306,6 @@ ALTER TABLE compiletest_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE compiletest_id_seq OWNED BY compiletest.id;
 
-
---
--- Name: build; Type: VIEW; Schema: public; Owner: consumer
---
-
-CREATE VIEW build AS
- SELECT c.id,
-    c."overlay",
-    c.defconfig,
-    c.pass,
-    c.configname AS config,
-    c.buildcmd AS testscript
-   FROM compiletest c;
-
-
-ALTER TABLE build OWNER TO consumer;
 
 --
 -- Name: cyclictest; Type: TABLE; Schema: public; Owner: postgres
@@ -324,27 +330,6 @@ CREATE TABLE cyclictest (
 
 
 ALTER TABLE cyclictest OWNER TO postgres;
-
---
--- Name: cyclictest_view; Type: VIEW; Schema: public; Owner: consumer
---
-
-CREATE VIEW cyclictest_view AS
- SELECT c.id,
-    c.description AS load,
-    c.duration,
-    c."interval",
-    c.min,
-    c.avg,
-    c.max,
-    c.boottest_id,
-    c.pass,
-    c.threshold,
-    c.testscript
-   FROM cyclictest c;
-
-
-ALTER TABLE cyclictest_view OWNER TO consumer;
 
 --
 -- Name: target; Type: TABLE; Schema: public; Owner: postgres
@@ -397,6 +382,27 @@ ALTER TABLE cyclictest_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE cyclictest_id_seq OWNED BY cyclictest.id;
 
+
+--
+-- Name: cyclictest_view; Type: VIEW; Schema: public; Owner: consumer
+--
+
+CREATE VIEW cyclictest_view AS
+ SELECT c.id,
+    c.description AS load,
+    c.duration,
+    c."interval",
+    c.min,
+    c.avg,
+    c.max,
+    c.boottest_id,
+    c.pass,
+    c.threshold,
+    c.testscript
+   FROM cyclictest c;
+
+
+ALTER TABLE cyclictest_view OWNER TO consumer;
 
 --
 -- Name: detail; Type: VIEW; Schema: public; Owner: consumer
@@ -474,6 +480,19 @@ ALTER SEQUENCE git_id_seq OWNED BY git.id;
 
 
 --
+-- Name: git_view; Type: VIEW; Schema: public; Owner: consumer
+--
+
+CREATE VIEW git_view AS
+ SELECT g.id,
+    g.httprepo,
+    g.path
+   FROM git g;
+
+
+ALTER TABLE git_view OWNER TO consumer;
+
+--
 -- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -486,19 +505,6 @@ CREATE SEQUENCE hibernate_sequence
 
 
 ALTER TABLE hibernate_sequence OWNER TO postgres;
-
---
--- Name: git_view; Type: VIEW; Schema: public; Owner: consumer
---
-
-CREATE VIEW git_view AS
- SELECT g.id,
-    g.httprepo,
-    g.path
-   FROM git g;
-
-
-ALTER TABLE git_view OWNER TO consumer;
 
 --
 -- Name: histogram; Type: TABLE; Schema: public; Owner: postgres
@@ -542,7 +548,7 @@ ALTER SEQUENCE histogram_id_seq OWNED BY histogram.id;
 --
 
 CREATE VIEW histogram_view AS
- SELECT h.thread as cpu,
+ SELECT h.thread AS cpu,
     h.latency,
     h.count,
     h.cyclictest_id
@@ -662,7 +668,7 @@ CREATE VIEW overview AS
    FROM ((cirtscheduler s
      JOIN tags t ON ((s.tags_id = t.id)))
      JOIN git g ON ((t.git_id = g.id)))
-   WHERE s.processing = 'false';
+  WHERE (s.processing = false);
 
 
 ALTER TABLE overview OWNER TO consumer;
@@ -1265,6 +1271,76 @@ GRANT SELECT,USAGE ON SEQUENCE boottest_id_seq TO jenkins;
 
 
 --
+-- Name: compiletest; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE compiletest TO jenkins;
+
+
+--
+-- Name: compiletest.id; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT(id) ON TABLE compiletest TO consumer;
+
+
+--
+-- Name: compiletest.custom_commit; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT(custom_commit) ON TABLE compiletest TO consumer;
+
+
+--
+-- Name: compiletest.defconfig; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT(defconfig) ON TABLE compiletest TO consumer;
+
+
+--
+-- Name: compiletest.overlay; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT("overlay") ON TABLE compiletest TO consumer;
+
+
+--
+-- Name: compiletest.pass; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT(pass) ON TABLE compiletest TO consumer;
+
+
+--
+-- Name: compiletest.cirtscheduler_id; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT(cirtscheduler_id) ON TABLE compiletest TO consumer;
+
+
+--
+-- Name: compiletest.configname; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT(configname) ON TABLE compiletest TO consumer;
+
+
+--
+-- Name: compiletest.arch; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT(arch) ON TABLE compiletest TO consumer;
+
+
+--
+-- Name: compiletest.buildcmd; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT(buildcmd) ON TABLE compiletest TO consumer;
+
+
+--
 -- Name: cirtbranch; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -1334,14 +1410,16 @@ GRANT SELECT("timestamp") ON TABLE cirtscheduler TO consumer;
 GRANT SELECT(tags_id) ON TABLE cirtscheduler TO consumer;
 
 
--- Name: cirtscheduler.pass; Type: ACL; Schema: public; Owner:
--- postgres
+--
+-- Name: cirtscheduler.pass; Type: ACL; Schema: public; Owner: postgres
+--
 
 GRANT SELECT(pass) ON TABLE cirtscheduler TO consumer;
 
 
--- Name: cirtscheduler.processing; Type: ACL; Schema: public; Owner:
--- postgres
+--
+-- Name: cirtscheduler.processing; Type: ACL; Schema: public; Owner: postgres
+--
 
 GRANT SELECT(processing) ON TABLE cirtscheduler TO consumer;
 
@@ -1351,76 +1429,6 @@ GRANT SELECT(processing) ON TABLE cirtscheduler TO consumer;
 --
 
 GRANT SELECT,USAGE ON SEQUENCE cirtscheduler_id_seq TO jenkins;
-
-
---
--- Name: compiletest; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON TABLE compiletest TO jenkins;
-
-
---
--- Name: compiletest.id; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT(id) ON TABLE compiletest TO consumer;
-
-
---
--- Name: compiletest.custom_commit; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT(custom_commit) ON TABLE compiletest TO consumer;
-
-
---
--- Name: compiletest.defconfig; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT(defconfig) ON TABLE compiletest TO consumer;
-
-
---
--- Name: compiletest.overlay; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT("overlay") ON TABLE compiletest TO consumer;
-
-
---
--- Name: compiletest.pass; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT(pass) ON TABLE compiletest TO consumer;
-
-
---
--- Name: compiletest.cirtscheduler_id; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT(cirtscheduler_id) ON TABLE compiletest TO consumer;
-
-
---
--- Name: compiletest.configname; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT(configname) ON TABLE compiletest TO consumer;
-
-
---
--- Name: compiletest.arch; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT(arch) ON TABLE compiletest TO consumer;
-
-
---
--- Name: compiletest.buildcmd; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT(buildcmd) ON TABLE compiletest TO consumer;
 
 
 --
@@ -1525,8 +1533,8 @@ GRANT SELECT(owner) ON TABLE cyclictest TO consumer;
 -- Name: target; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT ALL ON TABLE target TO jenkins;
 GRANT SELECT ON TABLE target TO consumer;
+GRANT ALL ON TABLE target TO jenkins;
 
 
 --
@@ -1645,8 +1653,8 @@ GRANT SELECT,USAGE ON SEQUENCE histogram_id_seq TO jenkins;
 -- Name: label; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT ALL ON TABLE label TO jenkins;
 GRANT SELECT ON TABLE label TO consumer;
+GRANT ALL ON TABLE label TO jenkins;
 
 
 --
@@ -1709,8 +1717,8 @@ GRANT SELECT(max) ON TABLE minavgmax TO consumer;
 -- Name: tags; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT ALL ON TABLE tags TO jenkins;
 GRANT SELECT ON TABLE tags TO consumer;
+GRANT ALL ON TABLE tags TO jenkins;
 
 
 --
