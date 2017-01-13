@@ -338,7 +338,8 @@ CREATE VIEW cyclictest_view AS
     c.max,
     c.boottest_id,
     c.pass,
-    c.threshold
+    c.threshold,
+    c.testscript
    FROM cyclictest c;
 
 
