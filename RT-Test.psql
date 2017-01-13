@@ -214,7 +214,8 @@ CREATE TABLE cirtscheduler (
     tags_id integer NOT NULL,
     pass boolean NOT NULL,
     owner text DEFAULT 'consumer'::text NOT NULL,
-    notes character varying(1024)
+    notes character varying(1024),
+    processing boolean DEFAULT TRUE NOT NULL
 );
 
 
@@ -660,7 +661,8 @@ CREATE VIEW overview AS
     g.public
    FROM ((cirtscheduler s
      JOIN tags t ON ((s.tags_id = t.id)))
-     JOIN git g ON ((t.git_id = g.id)));
+     JOIN git g ON ((t.git_id = g.id)))
+   WHERE s.processing = 'false';
 
 
 ALTER TABLE overview OWNER TO consumer;
@@ -1332,11 +1334,16 @@ GRANT SELECT("timestamp") ON TABLE cirtscheduler TO consumer;
 GRANT SELECT(tags_id) ON TABLE cirtscheduler TO consumer;
 
 
---
--- Name: cirtscheduler.pass; Type: ACL; Schema: public; Owner: postgres
---
+-- Name: cirtscheduler.pass; Type: ACL; Schema: public; Owner:
+-- postgres
 
 GRANT SELECT(pass) ON TABLE cirtscheduler TO consumer;
+
+
+-- Name: cirtscheduler.processing; Type: ACL; Schema: public; Owner:
+-- postgres
+
+GRANT SELECT(processing) ON TABLE cirtscheduler TO consumer;
 
 
 --
