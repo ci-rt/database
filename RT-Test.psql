@@ -1083,42 +1083,42 @@ ALTER TABLE compiletest ENABLE ROW LEVEL SECURITY;
 -- Name: boottest consumer_view; Type: POLICY; Schema: public; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON boottest FOR SELECT TO consumer USING ((owner = ("current_user"())::text));
+CREATE POLICY consumer_view ON boottest FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
 -- Name: compiletest consumer_view; Type: POLICY; Schema: public; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON compiletest FOR SELECT TO consumer USING ((owner = ("current_user"())::text));
+CREATE POLICY consumer_view ON compiletest FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
 -- Name: cyclictest consumer_view; Type: POLICY; Schema: public; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON cyclictest FOR SELECT TO consumer USING ((owner = ("current_user"())::text));
+CREATE POLICY consumer_view ON cyclictest FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
 -- Name: git consumer_view; Type: POLICY; Schema: public; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON git FOR SELECT TO consumer USING ((owner = ("current_user"())::text));
+CREATE POLICY consumer_view ON git FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
 -- Name: histogram consumer_view; Type: POLICY; Schema: public; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON histogram FOR SELECT TO consumer USING ((owner = ("current_user"())::text));
+CREATE POLICY consumer_view ON histogram FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
 -- Name: cirtscheduler consumer_view; Type: POLICY; Schema: public; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON cirtscheduler FOR SELECT TO consumer USING ((owner = ("current_user"())::text));
+CREATE POLICY consumer_view ON cirtscheduler FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
