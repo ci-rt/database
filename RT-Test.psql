@@ -259,7 +259,8 @@ CREATE TABLE cirtscheduler (
     pass boolean NOT NULL,
     owner text DEFAULT 'consumer'::text NOT NULL,
     notes character varying(1024),
-    processing boolean DEFAULT true NOT NULL
+    processing boolean DEFAULT true NOT NULL,
+    patches bytea
 );
 
 
