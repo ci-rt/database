@@ -937,7 +937,7 @@ ALTER TABLE ONLY target
 -- Name: public_boottest_bootdate1_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX public_boottest_bootdate1_idx ON boottest USING btree (bootdate);
+CREATE UNIQUE INDEX public_boottest_bootdate1_idx ON boottest USING btree (bootdate, target_id);
 
 
 --
