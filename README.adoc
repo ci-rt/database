@@ -41,3 +41,29 @@ base:
 psql RT-Test < /PATH/TO/CI-WEB/GIT/REPO/RT-Test.psql
 ----
 
+Change owner of a dataset
+-------------------------
+To update the owner of a dataset of a specific test run, execute the
+update_owner script:
+
+---
+$ update_owner -u jenkins 4711 new_owner
+UPDATE 1
+UPDATE 1
+UPDATE 1
+UPDATE 2
+---
+
+---
+$ update_owner -h
+CI-RT - update_owner
+
+Usage: update_owner [options] SCHEDULER_ID OWNER
+Options:
+     -h,     --help          print this message
+     -H,     --host          database host
+     -n,     --no-action     Dry run. No database action is actually taken.
+	                     Instead print out the actual SQL statement.
+     -u,     --user          database user
+     -v,     --verbose       Make the script verbose
+---

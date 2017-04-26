@@ -1,0 +1,106 @@
+#! /bin/bash
+
+progname="$(basename $0)"
+DRYRUN=0
+VERBOSE=0
+
+usage () {
+    cat >&2 <<EOF
+CI-RT - $progname
+
+Usage: $progname [options] SCHEDULER_ID OWNER
+Options:
+     -h,     --help          print this message
+     -H,     --host          database host
+     -n,     --no-action     Dry run. No database action is actually taken.
+			     Instead print out the actual SQL statement.
+     -u,     --user          database user
+     -v,     --verbose       Make the script verbose
+EOF
+}
+
+TEMP=$(getopt -o H:hnu:v -n "$progname" \
+	      --long host:,help,no-action,user:,verbose \
+	      -- "$@")
+
+if [ $? != 0 ] ; then
+    echo "Error handling options. Terminating..." >&2 ;
+    exit 1 ;
+fi
+
+eval set -- "$TEMP"
+
+while true ; do
+    case "$1" in
+	-h|--help)
+	    usage;
+	    exit 0
+	    ;;
+
+	-v|--verbose)
+	    VERBOSE=1;
+	    shift
+	    ;;
+
+	-n|--no-action)
+	    DRYRUN=1;
+	    shift
+	    ;;
+
+	-H|--host)
+	    DBHOST="$2"
+	    shift 2
+	    ;;
+
+	-u|--user)
+	    DBUSER="$2"
+	    shift 2
+	    ;;
+
+	--)  shift ;
+	     break
+	     ;;
+
+	*) echo "Internal error!"
+	   exit 1
+	   ;;
+    esac
+done
+
+if [ $# != 2 ]; then
+    echo >&2 "*** ERROR: Need exactly two arguments, got $#"
+    echo >&2 ""
+    usage
+    exit 1
+fi
+
+re='^[0-9]+$'
+if ! [[ $1 =~ $re ]] ; then
+    echo >&2 "*** ERROR: SCHEDULER_ID is not a number, got $1"
+    echo >&2 ""
+    usage
+    exit 1
+fi
+
+if [ $VERBOSE -eq 1 ]
+then
+    echo "host        : $DBHOST"
+    echo "user        : $DBUSER"
+    echo "SCHEDULER_ID: $1"
+    echo "OWNER       : $2"
+fi
+
+if [ $DRYRUN -eq 1 ]
+then
+    PSQL=cat
+else
+    PSQL="psql ${DBHOST/#/-h } ${DBUSER/#/-U } RT-Test"
+fi
+
+cat <<EOF | $PSQL
+UPDATE cirtscheduler SET owner = '$2' WHERE id = '$1';
+UPDATE compiletest SET owner = '$2' WHERE cirtscheduler_id = '$1';
+UPDATE boottest SET owner = '$2' WHERE compiletest_id = (SELECT id FROM compiletest WHERE cirtscheduler_id = '$1');
+UPDATE cyclictest SET owner = '$2' WHERE boottest_id = (SELECT id FROM boottest WHERE compiletest_id = (SELECT id FROM compiletest WHERE cirtscheduler_id = '$1'));
+
+EOF
