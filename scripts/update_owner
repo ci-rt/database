@@ -99,8 +99,11 @@ fi
 
 cat <<EOF | $PSQL
 UPDATE cirtscheduler SET owner = '$2' WHERE id = '$1';
+UPDATE cirtbranch SET owner = '$2' WHERE cirtscheduler_id = '$1';
 UPDATE compiletest SET owner = '$2' WHERE cirtscheduler_id = '$1';
 UPDATE boottest SET owner = '$2' WHERE compiletest_id = (SELECT id FROM compiletest WHERE cirtscheduler_id = '$1');
 UPDATE cyclictest SET owner = '$2' WHERE boottest_id = (SELECT id FROM boottest WHERE compiletest_id = (SELECT id FROM compiletest WHERE cirtscheduler_id = '$1'));
+UPDATE histogram h SET owner = '$2' FROM cyclictest c WHERE h.cyclictest_id = c.id AND c.boottest_id = (SELECT id FROM boottest WHERE compiletest_id = (SELECT id FROM compiletest WHERE cirtscheduler_id = '$1'));
+UPDATE minavgmax m SET owner = '$2' FROM cyclictest c WHERE m.cyclictest_id = c.id AND c.boottest_id = (SELECT id FROM boottest WHERE compiletest_id = (SELECT id FROM compiletest WHERE cirtscheduler_id = '$1'));
 
 EOF
