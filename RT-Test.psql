@@ -47,6 +47,7 @@ DROP INDEX IF EXISTS public.public_boottest_target_id2_idx;
 DROP INDEX IF EXISTS public.public_boottest_pass3_idx;
 DROP INDEX IF EXISTS public.public_boottest_compiletest_id4_idx;
 DROP INDEX IF EXISTS public.public_boottest_bootdate1_idx;
+ALTER TABLE IF EXISTS ONLY public.target DROP CONSTRAINT IF EXISTS target_ukey;
 ALTER TABLE IF EXISTS ONLY public.target DROP CONSTRAINT IF EXISTS target_pkey;
 ALTER TABLE IF EXISTS ONLY public.tags DROP CONSTRAINT IF EXISTS tags_pkey;
 ALTER TABLE IF EXISTS ONLY public.minavgmax DROP CONSTRAINT IF EXISTS minavgmax_pkey;
@@ -931,6 +932,14 @@ ALTER TABLE ONLY tags
 
 ALTER TABLE ONLY target
     ADD CONSTRAINT target_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: target target_ukey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY target
+    ADD CONSTRAINT target_ukey UNIQUE (hostname);
 
 
 --
