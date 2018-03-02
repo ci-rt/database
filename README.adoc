@@ -1,9 +1,10 @@
 Database scheme required for ci-web and jenkins
 ===============================================
 
-https://github.com/ci-rt/ci-web[ci-web] and
-https://github.com/ci-rt/jenkins[Jenkins] use a database to show and
-to store the test results.
+https://github.com/ci-rt/jenkins[Jenkins] uses the database to store
+the test results. https://github.com/ci-rt/ci-web[ci-web] is used to
+visualize the test results stored in the database, but ci-web is not
+required when setting up a Jenkins master instance.
 
 Prerequisites
 -------------
@@ -38,7 +39,7 @@ After this, the data base scheme needs to be inserted into the created data
 base:
 
 ----
-psql RT-Test < /PATH/TO/CI-WEB/GIT/REPO/RT-Test.psql
+psql RT-Test < /PATH/TO/RT-Test.psql
 ----
 
 Change owner of a dataset
