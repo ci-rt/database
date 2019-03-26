@@ -442,6 +442,45 @@ CREATE VIEW "ci-rt".donut AS
 ALTER TABLE "ci-rt".donut OWNER TO consumer;
 
 --
+-- Name: generictest; Type: TABLE; Schema: ci-rt; Owner: jenkins
+--
+
+CREATE TABLE "ci-rt".generictest (
+    id integer NOT NULL,
+    description character varying(80),
+    boottest_id integer,
+    pass boolean,
+    testscript bytea,
+    owner text,
+    testlog bytea
+);
+
+
+ALTER TABLE "ci-rt".generictest OWNER TO jenkins;
+
+--
+-- Name: generictest_id_seq; Type: SEQUENCE; Schema: ci-rt; Owner: jenkins
+--
+
+CREATE SEQUENCE "ci-rt".generictest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE "ci-rt".generictest_id_seq OWNER TO jenkins;
+
+--
+-- Name: generictest_id_seq; Type: SEQUENCE OWNED BY; Schema: ci-rt; Owner: jenkins
+--
+
+ALTER SEQUENCE "ci-rt".generictest_id_seq OWNED BY "ci-rt".generictest.id;
+
+
+--
 -- Name: git; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
@@ -800,6 +839,13 @@ ALTER TABLE ONLY "ci-rt".cyclictest ALTER COLUMN id SET DEFAULT nextval('"ci-rt"
 
 
 --
+-- Name: generictest id; Type: DEFAULT; Schema: ci-rt; Owner: jenkins
+--
+
+ALTER TABLE ONLY "ci-rt".generictest ALTER COLUMN id SET DEFAULT nextval('"ci-rt".generictest_id_seq'::regclass);
+
+
+--
 -- Name: git id; Type: DEFAULT; Schema: "ci-rt"; Owner: postgres
 --
 
@@ -872,6 +918,14 @@ ALTER TABLE ONLY "ci-rt".compiletest
 
 ALTER TABLE ONLY "ci-rt".cyclictest
     ADD CONSTRAINT cyclictest_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: generictest generictest_pkey; Type: CONSTRAINT; Schema: ci-rt; Owner: jenkins
+--
+
+ALTER TABLE ONLY "ci-rt".generictest
+    ADD CONSTRAINT generictest_pkey PRIMARY KEY (id);
 
 
 --
@@ -1025,6 +1079,14 @@ ALTER TABLE ONLY "ci-rt".compiletest
 
 ALTER TABLE ONLY "ci-rt".cyclictest
     ADD CONSTRAINT cyclictest_boottest_id_fkey FOREIGN KEY (boottest_id) REFERENCES "ci-rt".boottest(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: generictest generictest_boottest_id_fkey; Type: FK CONSTRAINT; Schema: ci-rt; Owner: jenkins
+--
+
+ALTER TABLE ONLY "ci-rt".generictest
+    ADD CONSTRAINT generictest_boottest_id_fkey FOREIGN KEY (boottest_id) REFERENCES "ci-rt".boottest(id);
 
 
 --
