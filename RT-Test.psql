@@ -10,115 +10,113 @@ SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
 
-SET search_path = public, pg_catalog;
-
-DROP POLICY IF EXISTS jenkins_all ON minavgmax;
-DROP POLICY IF EXISTS jenkins_all ON histogram;
-DROP POLICY IF EXISTS jenkins_all ON git;
-DROP POLICY IF EXISTS jenkins_all ON cyclictest;
-DROP POLICY IF EXISTS jenkins_all ON compiletest;
-DROP POLICY IF EXISTS jenkins_all ON boottest;
-DROP POLICY IF EXISTS jenkins_all ON cirtbranch;
-DROP POLICY IF EXISTS jenkins_all ON cirtscheduler;
-DROP POLICY IF EXISTS consumer_view ON cirtscheduler;
-DROP POLICY IF EXISTS consumer_view ON histogram;
-DROP POLICY IF EXISTS consumer_view ON git;
-DROP POLICY IF EXISTS consumer_view ON cyclictest;
-DROP POLICY IF EXISTS consumer_view ON compiletest;
-DROP POLICY IF EXISTS consumer_view ON boottest;
-ALTER TABLE IF EXISTS ONLY public.target DROP CONSTRAINT IF EXISTS target_label_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.tags DROP CONSTRAINT IF EXISTS tags_git_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.minavgmax DROP CONSTRAINT IF EXISTS minavgmax_cyclictest_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.histogram DROP CONSTRAINT IF EXISTS histogram_cyclictest_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.cyclictest DROP CONSTRAINT IF EXISTS cyclictest_boottest_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.compiletest DROP CONSTRAINT IF EXISTS compiletest_cirtscheduler_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.cirtscheduler DROP CONSTRAINT IF EXISTS cirtscheduler_commit_fkey;
-ALTER TABLE IF EXISTS ONLY public.cirtbranch DROP CONSTRAINT IF EXISTS cirtbranch_cirtscheduler_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.boottest DROP CONSTRAINT IF EXISTS boottest_target_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.boottest DROP CONSTRAINT IF EXISTS boottest_compiletest_id_fkey;
-DROP INDEX IF EXISTS public.public_histogram_cyclictest_id1_idx;
-DROP INDEX IF EXISTS public.public_cyclictest_boottest_id1_idx;
-DROP INDEX IF EXISTS public.public_compiletest_cirtscheduler_id1_idx;
-DROP INDEX IF EXISTS public.public_boottest_target_id2_idx;
-DROP INDEX IF EXISTS public.public_boottest_pass3_idx;
-DROP INDEX IF EXISTS public.public_boottest_compiletest_id4_idx;
-DROP INDEX IF EXISTS public.public_boottest_bootdate1_idx;
-ALTER TABLE IF EXISTS ONLY public.target DROP CONSTRAINT IF EXISTS target_ukey;
-ALTER TABLE IF EXISTS ONLY public.target DROP CONSTRAINT IF EXISTS target_pkey;
-ALTER TABLE IF EXISTS ONLY public.tags DROP CONSTRAINT IF EXISTS tags_pkey;
-ALTER TABLE IF EXISTS ONLY public.minavgmax DROP CONSTRAINT IF EXISTS minavgmax_pkey;
-ALTER TABLE IF EXISTS ONLY public.label DROP CONSTRAINT IF EXISTS label_pkey;
-ALTER TABLE IF EXISTS ONLY public.histogram DROP CONSTRAINT IF EXISTS histogram_ukey;
-ALTER TABLE IF EXISTS ONLY public.histogram DROP CONSTRAINT IF EXISTS histogram_pkey;
-ALTER TABLE IF EXISTS ONLY public.git DROP CONSTRAINT IF EXISTS git_pkey;
-ALTER TABLE IF EXISTS ONLY public.cyclictest DROP CONSTRAINT IF EXISTS cyclictest_pkey;
-ALTER TABLE IF EXISTS ONLY public.compiletest DROP CONSTRAINT IF EXISTS compiletest_pkey;
-ALTER TABLE IF EXISTS ONLY public.cirtscheduler DROP CONSTRAINT IF EXISTS cirtscheduler_pkey;
-ALTER TABLE IF EXISTS ONLY public.cirtbranch DROP CONSTRAINT IF EXISTS cirtbranch_pkey;
-ALTER TABLE IF EXISTS ONLY public.boottest DROP CONSTRAINT IF EXISTS boottest_pkey;
-ALTER TABLE IF EXISTS public.target ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.tags ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.label ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.histogram ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.git ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.cyclictest ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.compiletest ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.cirtscheduler ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.boottest ALTER COLUMN id DROP DEFAULT;
-DROP VIEW IF EXISTS public.targets;
-DROP VIEW IF EXISTS public.targetboot;
-DROP VIEW IF EXISTS public.target_tests;
-DROP SEQUENCE IF EXISTS public.target_id_seq;
-DROP SEQUENCE IF EXISTS public.tags_id_seq;
-DROP VIEW IF EXISTS public.overview;
-DROP TABLE IF EXISTS public.tags;
-DROP TABLE IF EXISTS public.minavgmax;
-DROP SEQUENCE IF EXISTS public.label_id_seq;
-DROP VIEW IF EXISTS public.kbuild;
-DROP TABLE IF EXISTS public.label;
-DROP VIEW IF EXISTS public.histogram_view;
-DROP SEQUENCE IF EXISTS public.histogram_id_seq;
-DROP TABLE IF EXISTS public.histogram;
-DROP SEQUENCE IF EXISTS public.hibernate_sequence;
-DROP VIEW IF EXISTS public.git_view;
-DROP SEQUENCE IF EXISTS public.git_id_seq;
-DROP TABLE IF EXISTS public.git;
-DROP VIEW IF EXISTS public.donut;
-DROP VIEW IF EXISTS public.detail;
-DROP VIEW IF EXISTS public.cyclictest_view;
-DROP SEQUENCE IF EXISTS public.cyclictest_id_seq;
-DROP VIEW IF EXISTS public.cyc_target;
-DROP TABLE IF EXISTS public.target;
-DROP TABLE IF EXISTS public.cyclictest;
-DROP SEQUENCE IF EXISTS public.compiletest_id_seq;
-DROP SEQUENCE IF EXISTS public.cirtscheduler_id_seq;
-DROP TABLE IF EXISTS public.cirtscheduler;
-DROP TABLE IF EXISTS public.cirtbranch;
-DROP VIEW IF EXISTS public.build;
-DROP TABLE IF EXISTS public.compiletest;
-DROP VIEW IF EXISTS public.boottest_view;
-DROP SEQUENCE IF EXISTS public.boottest_id_seq;
-DROP TABLE IF EXISTS public.boottest;
+DROP POLICY IF EXISTS jenkins_all ON "ci-rt".minavgmax;
+DROP POLICY IF EXISTS jenkins_all ON "ci-rt".histogram;
+DROP POLICY IF EXISTS jenkins_all ON "ci-rt".git;
+DROP POLICY IF EXISTS jenkins_all ON "ci-rt".cyclictest;
+DROP POLICY IF EXISTS jenkins_all ON "ci-rt".compiletest;
+DROP POLICY IF EXISTS jenkins_all ON "ci-rt".boottest;
+DROP POLICY IF EXISTS jenkins_all ON "ci-rt".cirtbranch;
+DROP POLICY IF EXISTS jenkins_all ON "ci-rt".cirtscheduler;
+DROP POLICY IF EXISTS consumer_view ON "ci-rt".cirtscheduler;
+DROP POLICY IF EXISTS consumer_view ON "ci-rt".histogram;
+DROP POLICY IF EXISTS consumer_view ON "ci-rt".git;
+DROP POLICY IF EXISTS consumer_view ON "ci-rt".cyclictest;
+DROP POLICY IF EXISTS consumer_view ON "ci-rt".compiletest;
+DROP POLICY IF EXISTS consumer_view ON "ci-rt".boottest;
+ALTER TABLE IF EXISTS ONLY "ci-rt".target DROP CONSTRAINT IF EXISTS target_label_id_fkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".tags DROP CONSTRAINT IF EXISTS tags_git_id_fkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".minavgmax DROP CONSTRAINT IF EXISTS minavgmax_cyclictest_id_fkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".histogram DROP CONSTRAINT IF EXISTS histogram_cyclictest_id_fkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".cyclictest DROP CONSTRAINT IF EXISTS cyclictest_boottest_id_fkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".compiletest DROP CONSTRAINT IF EXISTS compiletest_cirtscheduler_id_fkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".cirtscheduler DROP CONSTRAINT IF EXISTS cirtscheduler_commit_fkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".cirtbranch DROP CONSTRAINT IF EXISTS cirtbranch_cirtscheduler_id_fkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".boottest DROP CONSTRAINT IF EXISTS boottest_target_id_fkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".boottest DROP CONSTRAINT IF EXISTS boottest_compiletest_id_fkey;
+DROP INDEX IF EXISTS "ci-rt".public_histogram_cyclictest_id1_idx;
+DROP INDEX IF EXISTS "ci-rt".public_cyclictest_boottest_id1_idx;
+DROP INDEX IF EXISTS "ci-rt".public_compiletest_cirtscheduler_id1_idx;
+DROP INDEX IF EXISTS "ci-rt".public_boottest_target_id2_idx;
+DROP INDEX IF EXISTS "ci-rt".public_boottest_pass3_idx;
+DROP INDEX IF EXISTS "ci-rt".public_boottest_compiletest_id4_idx;
+DROP INDEX IF EXISTS "ci-rt".public_boottest_bootdate1_idx;
+ALTER TABLE IF EXISTS ONLY "ci-rt".target DROP CONSTRAINT IF EXISTS target_pkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".tags DROP CONSTRAINT IF EXISTS tags_pkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".minavgmax DROP CONSTRAINT IF EXISTS minavgmax_pkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".label DROP CONSTRAINT IF EXISTS label_pkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".histogram DROP CONSTRAINT IF EXISTS histogram_ukey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".histogram DROP CONSTRAINT IF EXISTS histogram_pkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".git DROP CONSTRAINT IF EXISTS git_pkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".cyclictest DROP CONSTRAINT IF EXISTS cyclictest_pkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".compiletest DROP CONSTRAINT IF EXISTS compiletest_pkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".cirtscheduler DROP CONSTRAINT IF EXISTS cirtscheduler_pkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".cirtbranch DROP CONSTRAINT IF EXISTS cirtbranch_pkey;
+ALTER TABLE IF EXISTS ONLY "ci-rt".boottest DROP CONSTRAINT IF EXISTS boottest_pkey;
+ALTER TABLE IF EXISTS "ci-rt".target ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE IF EXISTS "ci-rt".tags ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE IF EXISTS "ci-rt".label ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE IF EXISTS "ci-rt".histogram ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE IF EXISTS "ci-rt".git ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE IF EXISTS "ci-rt".cyclictest ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE IF EXISTS "ci-rt".compiletest ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE IF EXISTS "ci-rt".cirtscheduler ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE IF EXISTS "ci-rt".boottest ALTER COLUMN id DROP DEFAULT;
+DROP VIEW IF EXISTS "ci-rt".targets;
+DROP VIEW IF EXISTS "ci-rt".targetboot;
+DROP VIEW IF EXISTS "ci-rt".target_tests;
+DROP SEQUENCE IF EXISTS "ci-rt".target_id_seq;
+DROP SEQUENCE IF EXISTS "ci-rt".tags_id_seq;
+DROP VIEW IF EXISTS "ci-rt".overview;
+DROP TABLE IF EXISTS "ci-rt".tags;
+DROP TABLE IF EXISTS "ci-rt".minavgmax;
+DROP SEQUENCE IF EXISTS "ci-rt".label_id_seq;
+DROP VIEW IF EXISTS "ci-rt".kbuild;
+DROP TABLE IF EXISTS "ci-rt".label;
+DROP VIEW IF EXISTS "ci-rt".histogram_view;
+DROP SEQUENCE IF EXISTS "ci-rt".histogram_id_seq;
+DROP TABLE IF EXISTS "ci-rt".histogram;
+DROP SEQUENCE IF EXISTS "ci-rt".hibernate_sequence;
+DROP VIEW IF EXISTS "ci-rt".git_view;
+DROP SEQUENCE IF EXISTS "ci-rt".git_id_seq;
+DROP TABLE IF EXISTS "ci-rt".git;
+DROP VIEW IF EXISTS "ci-rt".donut;
+DROP VIEW IF EXISTS "ci-rt".detail;
+DROP VIEW IF EXISTS "ci-rt".cyclictest_view;
+DROP SEQUENCE IF EXISTS "ci-rt".cyclictest_id_seq;
+DROP VIEW IF EXISTS "ci-rt".cyc_target;
+DROP TABLE IF EXISTS "ci-rt".target;
+DROP TABLE IF EXISTS "ci-rt".cyclictest;
+DROP SEQUENCE IF EXISTS "ci-rt".compiletest_id_seq;
+DROP SEQUENCE IF EXISTS "ci-rt".cirtscheduler_id_seq;
+DROP TABLE IF EXISTS "ci-rt".cirtscheduler;
+DROP TABLE IF EXISTS "ci-rt".cirtbranch;
+DROP VIEW IF EXISTS "ci-rt".build;
+DROP TABLE IF EXISTS "ci-rt".compiletest;
+DROP VIEW IF EXISTS "ci-rt".boottest_view;
+DROP SEQUENCE IF EXISTS "ci-rt".boottest_id_seq;
+DROP TABLE IF EXISTS "ci-rt".boottest;
 DROP EXTENSION IF EXISTS plpgsql;
-DROP SCHEMA IF EXISTS public;
+DROP SCHEMA IF EXISTS "ci-rt";
 --
--- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
---
-
-CREATE SCHEMA public;
-
-
-ALTER SCHEMA public OWNER TO postgres;
-
---
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+-- Name: "ci-rt"; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
-COMMENT ON SCHEMA public IS 'standard public schema';
+CREATE SCHEMA "ci-rt";
+
+
+ALTER SCHEMA "ci-rt" OWNER TO postgres;
+
+--
+-- Name: SCHEMA "ci-rt"; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA "ci-rt" IS 'standard "ci-rt" schema';
 
 
 --
@@ -135,17 +133,15 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
-SET search_path = public, pg_catalog;
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: boottest; Type: TABLE; Schema: public; Owner: postgres
+-- Name: boottest; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE TABLE boottest (
+CREATE TABLE "ci-rt".boottest (
     id integer NOT NULL,
     cmdline character varying(1024) NOT NULL,
     pass boolean NOT NULL,
@@ -158,13 +154,13 @@ CREATE TABLE boottest (
 );
 
 
-ALTER TABLE boottest OWNER TO postgres;
+ALTER TABLE "ci-rt".boottest OWNER TO postgres;
 
 --
--- Name: boottest_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: boottest_id_seq; Type: SEQUENCE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE SEQUENCE boottest_id_seq
+CREATE SEQUENCE "ci-rt".boottest_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -172,34 +168,34 @@ CREATE SEQUENCE boottest_id_seq
     CACHE 1;
 
 
-ALTER TABLE boottest_id_seq OWNER TO postgres;
+ALTER TABLE "ci-rt".boottest_id_seq OWNER TO postgres;
 
 --
--- Name: boottest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: boottest_id_seq; Type: SEQUENCE OWNED BY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER SEQUENCE boottest_id_seq OWNED BY boottest.id;
+ALTER SEQUENCE "ci-rt".boottest_id_seq OWNED BY "ci-rt".boottest.id;
 
 
 --
--- Name: boottest_view; Type: VIEW; Schema: public; Owner: consumer
+-- Name: boottest_view; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW boottest_view AS
+CREATE VIEW "ci-rt".boottest_view AS
  SELECT b.id,
     b.target_id,
     b.cmdline,
     b.pass
-   FROM boottest b;
+   FROM "ci-rt".boottest b;
 
 
-ALTER TABLE boottest_view OWNER TO consumer;
+ALTER TABLE "ci-rt".boottest_view OWNER TO consumer;
 
 --
--- Name: compiletest; Type: TABLE; Schema: public; Owner: postgres
+-- Name: compiletest; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE TABLE compiletest (
+CREATE TABLE "ci-rt".compiletest (
     id integer NOT NULL,
     custom_commit character varying(40),
     defconfig bytea NOT NULL,
@@ -215,29 +211,29 @@ CREATE TABLE compiletest (
 );
 
 
-ALTER TABLE compiletest OWNER TO postgres;
+ALTER TABLE "ci-rt".compiletest OWNER TO postgres;
 
 --
--- Name: build; Type: VIEW; Schema: public; Owner: consumer
+-- Name: build; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW build AS
+CREATE VIEW "ci-rt".build AS
  SELECT c.id,
     c."overlay",
     c.defconfig,
     c.pass,
     c.configname AS config,
     c.buildcmd AS testscript
-   FROM compiletest c;
+   FROM "ci-rt".compiletest c;
 
 
-ALTER TABLE build OWNER TO consumer;
+ALTER TABLE "ci-rt".build OWNER TO consumer;
 
 --
--- Name: cirtbranch; Type: TABLE; Schema: public; Owner: postgres
+-- Name: cirtbranch; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE TABLE cirtbranch (
+CREATE TABLE "ci-rt".cirtbranch (
     id integer NOT NULL,
     testbranch character varying(80) NOT NULL,
     commit character varying(40) NOT NULL,
@@ -246,13 +242,13 @@ CREATE TABLE cirtbranch (
 );
 
 
-ALTER TABLE cirtbranch OWNER TO postgres;
+ALTER TABLE "ci-rt".cirtbranch OWNER TO postgres;
 
 --
--- Name: cirtscheduler; Type: TABLE; Schema: public; Owner: postgres
+-- Name: cirtscheduler; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE TABLE cirtscheduler (
+CREATE TABLE "ci-rt".cirtscheduler (
     id integer NOT NULL,
     branch character varying(80) NOT NULL,
     "timestamp" timestamp without time zone NOT NULL,
@@ -265,13 +261,13 @@ CREATE TABLE cirtscheduler (
 );
 
 
-ALTER TABLE cirtscheduler OWNER TO postgres;
+ALTER TABLE "ci-rt".cirtscheduler OWNER TO postgres;
 
 --
--- Name: cirtscheduler_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: cirtscheduler_id_seq; Type: SEQUENCE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE SEQUENCE cirtscheduler_id_seq
+CREATE SEQUENCE "ci-rt".cirtscheduler_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -279,20 +275,20 @@ CREATE SEQUENCE cirtscheduler_id_seq
     CACHE 1;
 
 
-ALTER TABLE cirtscheduler_id_seq OWNER TO postgres;
+ALTER TABLE "ci-rt".cirtscheduler_id_seq OWNER TO postgres;
 
 --
--- Name: cirtscheduler_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: cirtscheduler_id_seq; Type: SEQUENCE OWNED BY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER SEQUENCE cirtscheduler_id_seq OWNED BY cirtscheduler.id;
+ALTER SEQUENCE "ci-rt".cirtscheduler_id_seq OWNED BY "ci-rt".cirtscheduler.id;
 
 
 --
--- Name: compiletest_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: compiletest_id_seq; Type: SEQUENCE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE SEQUENCE compiletest_id_seq
+CREATE SEQUENCE "ci-rt".compiletest_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -300,20 +296,20 @@ CREATE SEQUENCE compiletest_id_seq
     CACHE 1;
 
 
-ALTER TABLE compiletest_id_seq OWNER TO postgres;
+ALTER TABLE "ci-rt".compiletest_id_seq OWNER TO postgres;
 
 --
--- Name: compiletest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: compiletest_id_seq; Type: SEQUENCE OWNED BY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER SEQUENCE compiletest_id_seq OWNED BY compiletest.id;
+ALTER SEQUENCE "ci-rt".compiletest_id_seq OWNED BY "ci-rt".compiletest.id;
 
 
 --
--- Name: cyclictest; Type: TABLE; Schema: public; Owner: postgres
+-- Name: cyclictest; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE TABLE cyclictest (
+CREATE TABLE "ci-rt".cyclictest (
     id integer NOT NULL,
     description character varying(80) NOT NULL,
     duration integer NOT NULL,
@@ -331,13 +327,13 @@ CREATE TABLE cyclictest (
 );
 
 
-ALTER TABLE cyclictest OWNER TO postgres;
+ALTER TABLE "ci-rt".cyclictest OWNER TO postgres;
 
 --
--- Name: target; Type: TABLE; Schema: public; Owner: postgres
+-- Name: target; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE TABLE target (
+CREATE TABLE "ci-rt".target (
     id integer NOT NULL,
     hostname character varying(80) NOT NULL,
     shortdesc character varying(80) NOT NULL,
@@ -348,27 +344,27 @@ CREATE TABLE target (
 );
 
 
-ALTER TABLE target OWNER TO postgres;
+ALTER TABLE "ci-rt".target OWNER TO postgres;
 
 --
--- Name: cyc_target; Type: VIEW; Schema: public; Owner: consumer
+-- Name: cyc_target; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW cyc_target AS
+CREATE VIEW "ci-rt".cyc_target AS
  SELECT t.shortdesc,
     c.id AS c_id
-   FROM ((cyclictest c
-     JOIN boottest bt ON ((c.boottest_id = bt.id)))
-     JOIN target t ON ((bt.target_id = t.id)));
+   FROM (("ci-rt".cyclictest c
+     JOIN "ci-rt".boottest bt ON ((c.boottest_id = bt.id)))
+     JOIN "ci-rt".target t ON ((bt.target_id = t.id)));
 
 
-ALTER TABLE cyc_target OWNER TO consumer;
+ALTER TABLE "ci-rt".cyc_target OWNER TO consumer;
 
 --
--- Name: cyclictest_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: cyclictest_id_seq; Type: SEQUENCE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE SEQUENCE cyclictest_id_seq
+CREATE SEQUENCE "ci-rt".cyclictest_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -376,20 +372,20 @@ CREATE SEQUENCE cyclictest_id_seq
     CACHE 1;
 
 
-ALTER TABLE cyclictest_id_seq OWNER TO postgres;
+ALTER TABLE "ci-rt".cyclictest_id_seq OWNER TO postgres;
 
 --
--- Name: cyclictest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: cyclictest_id_seq; Type: SEQUENCE OWNED BY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER SEQUENCE cyclictest_id_seq OWNED BY cyclictest.id;
+ALTER SEQUENCE "ci-rt".cyclictest_id_seq OWNED BY "ci-rt".cyclictest.id;
 
 
 --
--- Name: cyclictest_view; Type: VIEW; Schema: public; Owner: consumer
+-- Name: cyclictest_view; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW cyclictest_view AS
+CREATE VIEW "ci-rt".cyclictest_view AS
  SELECT c.id,
     c.description AS load,
     c.duration,
@@ -401,16 +397,16 @@ CREATE VIEW cyclictest_view AS
     c.pass,
     c.threshold,
     c.testscript
-   FROM cyclictest c;
+   FROM "ci-rt".cyclictest c;
 
 
-ALTER TABLE cyclictest_view OWNER TO consumer;
+ALTER TABLE "ci-rt".cyclictest_view OWNER TO consumer;
 
 --
--- Name: detail; Type: VIEW; Schema: public; Owner: consumer
+-- Name: detail; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW detail AS
+CREATE VIEW "ci-rt".detail AS
  SELECT s.id AS kernelbuild,
     b.configname AS config,
     b."overlay",
@@ -421,35 +417,35 @@ CREATE VIEW detail AS
     bt.id AS bt_id,
     c.id AS c_id,
     b.arch
-   FROM (((cirtscheduler s
-     LEFT JOIN compiletest b ON ((s.id = b.cirtscheduler_id)))
-     LEFT JOIN boottest bt ON ((b.id = bt.compiletest_id)))
-     LEFT JOIN cyclictest c ON ((c.boottest_id = bt.id)));
+   FROM ((("ci-rt".cirtscheduler s
+     LEFT JOIN "ci-rt".compiletest b ON ((s.id = b.cirtscheduler_id)))
+     LEFT JOIN "ci-rt".boottest bt ON ((b.id = bt.compiletest_id)))
+     LEFT JOIN "ci-rt".cyclictest c ON ((c.boottest_id = bt.id)));
 
 
-ALTER TABLE detail OWNER TO consumer;
+ALTER TABLE "ci-rt".detail OWNER TO consumer;
 
 --
--- Name: donut; Type: VIEW; Schema: public; Owner: consumer
+-- Name: donut; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW donut AS
+CREATE VIEW "ci-rt".donut AS
  SELECT compiletest.cirtscheduler_id AS kernelbuild_id,
     count(compiletest.pass) AS passed,
     count(compiletest.id) AS count
-   FROM compiletest
+   FROM "ci-rt".compiletest
   GROUP BY compiletest.cirtscheduler_id
   ORDER BY compiletest.cirtscheduler_id DESC
  LIMIT 10;
 
 
-ALTER TABLE donut OWNER TO consumer;
+ALTER TABLE "ci-rt".donut OWNER TO consumer;
 
 --
--- Name: git; Type: TABLE; Schema: public; Owner: postgres
+-- Name: git; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE TABLE git (
+CREATE TABLE "ci-rt".git (
     id integer NOT NULL,
     path character varying(1024) NOT NULL,
     public boolean NOT NULL,
@@ -458,13 +454,13 @@ CREATE TABLE git (
 );
 
 
-ALTER TABLE git OWNER TO postgres;
+ALTER TABLE "ci-rt".git OWNER TO postgres;
 
 --
--- Name: git_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: git_id_seq; Type: SEQUENCE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE SEQUENCE git_id_seq
+CREATE SEQUENCE "ci-rt".git_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -472,33 +468,33 @@ CREATE SEQUENCE git_id_seq
     CACHE 1;
 
 
-ALTER TABLE git_id_seq OWNER TO postgres;
+ALTER TABLE "ci-rt".git_id_seq OWNER TO postgres;
 
 --
--- Name: git_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: git_id_seq; Type: SEQUENCE OWNED BY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER SEQUENCE git_id_seq OWNED BY git.id;
+ALTER SEQUENCE "ci-rt".git_id_seq OWNED BY "ci-rt".git.id;
 
 
 --
--- Name: git_view; Type: VIEW; Schema: public; Owner: consumer
+-- Name: git_view; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW git_view AS
+CREATE VIEW "ci-rt".git_view AS
  SELECT g.id,
     g.httprepo,
     g.path
-   FROM git g;
+   FROM "ci-rt".git g;
 
 
-ALTER TABLE git_view OWNER TO consumer;
+ALTER TABLE "ci-rt".git_view OWNER TO consumer;
 
 --
--- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE SEQUENCE hibernate_sequence
+CREATE SEQUENCE "ci-rt".hibernate_sequence
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -506,13 +502,13 @@ CREATE SEQUENCE hibernate_sequence
     CACHE 1;
 
 
-ALTER TABLE hibernate_sequence OWNER TO postgres;
+ALTER TABLE "ci-rt".hibernate_sequence OWNER TO postgres;
 
 --
--- Name: histogram; Type: TABLE; Schema: public; Owner: postgres
+-- Name: histogram; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE TABLE histogram (
+CREATE TABLE "ci-rt".histogram (
     id integer NOT NULL,
     thread integer NOT NULL,
     latency integer NOT NULL,
@@ -522,13 +518,13 @@ CREATE TABLE histogram (
 );
 
 
-ALTER TABLE histogram OWNER TO postgres;
+ALTER TABLE "ci-rt".histogram OWNER TO postgres;
 
 --
--- Name: histogram_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: histogram_id_seq; Type: SEQUENCE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE SEQUENCE histogram_id_seq
+CREATE SEQUENCE "ci-rt".histogram_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -536,34 +532,34 @@ CREATE SEQUENCE histogram_id_seq
     CACHE 1;
 
 
-ALTER TABLE histogram_id_seq OWNER TO postgres;
+ALTER TABLE "ci-rt".histogram_id_seq OWNER TO postgres;
 
 --
--- Name: histogram_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: histogram_id_seq; Type: SEQUENCE OWNED BY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER SEQUENCE histogram_id_seq OWNED BY histogram.id;
+ALTER SEQUENCE "ci-rt".histogram_id_seq OWNED BY "ci-rt".histogram.id;
 
 
 --
--- Name: histogram_view; Type: VIEW; Schema: public; Owner: consumer
+-- Name: histogram_view; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW histogram_view AS
+CREATE VIEW "ci-rt".histogram_view AS
  SELECT h.thread AS cpu,
     h.latency,
     h.count,
     h.cyclictest_id
-   FROM histogram h;
+   FROM "ci-rt".histogram h;
 
 
-ALTER TABLE histogram_view OWNER TO consumer;
+ALTER TABLE "ci-rt".histogram_view OWNER TO consumer;
 
 --
--- Name: label; Type: TABLE; Schema: public; Owner: postgres
+-- Name: label; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE TABLE label (
+CREATE TABLE "ci-rt".label (
     id integer NOT NULL,
     arch character varying(20) NOT NULL,
     family character varying(20) NOT NULL,
@@ -571,13 +567,13 @@ CREATE TABLE label (
 );
 
 
-ALTER TABLE label OWNER TO postgres;
+ALTER TABLE "ci-rt".label OWNER TO postgres;
 
 --
--- Name: kbuild; Type: VIEW; Schema: public; Owner: consumer
+-- Name: kbuild; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW kbuild AS
+CREATE VIEW "ci-rt".kbuild AS
  SELECT s.id AS kernelbuild,
     b.arch,
     b.configname AS config,
@@ -590,21 +586,21 @@ CREATE VIEW kbuild AS
     c.id AS c_id,
     bt.target_id AS t_id,
     concat_ws(' '::text, l.arch, l.family) AS t_label
-   FROM (((((cirtscheduler s
-     LEFT JOIN compiletest b ON ((s.id = b.cirtscheduler_id)))
-     LEFT JOIN boottest bt ON ((b.id = bt.compiletest_id)))
-     LEFT JOIN cyclictest c ON ((c.boottest_id = bt.id)))
-     LEFT JOIN target t ON ((bt.target_id = t.id)))
-     LEFT JOIN label l ON ((t.label_id = l.id)));
+   FROM ((((("ci-rt".cirtscheduler s
+     LEFT JOIN "ci-rt".compiletest b ON ((s.id = b.cirtscheduler_id)))
+     LEFT JOIN "ci-rt".boottest bt ON ((b.id = bt.compiletest_id)))
+     LEFT JOIN "ci-rt".cyclictest c ON ((c.boottest_id = bt.id)))
+     LEFT JOIN "ci-rt".target t ON ((bt.target_id = t.id)))
+     LEFT JOIN "ci-rt".label l ON ((t.label_id = l.id)));
 
 
-ALTER TABLE kbuild OWNER TO consumer;
+ALTER TABLE "ci-rt".kbuild OWNER TO consumer;
 
 --
--- Name: label_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: label_id_seq; Type: SEQUENCE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE SEQUENCE label_id_seq
+CREATE SEQUENCE "ci-rt".label_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -612,20 +608,20 @@ CREATE SEQUENCE label_id_seq
     CACHE 1;
 
 
-ALTER TABLE label_id_seq OWNER TO postgres;
+ALTER TABLE "ci-rt".label_id_seq OWNER TO postgres;
 
 --
--- Name: label_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: label_id_seq; Type: SEQUENCE OWNED BY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER SEQUENCE label_id_seq OWNED BY label.id;
+ALTER SEQUENCE "ci-rt".label_id_seq OWNED BY "ci-rt".label.id;
 
 
 --
--- Name: minavgmax; Type: TABLE; Schema: public; Owner: postgres
+-- Name: minavgmax; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE TABLE minavgmax (
+CREATE TABLE "ci-rt".minavgmax (
     thread integer NOT NULL,
     cyclictest_id integer NOT NULL,
     min integer NOT NULL,
@@ -635,13 +631,13 @@ CREATE TABLE minavgmax (
 );
 
 
-ALTER TABLE minavgmax OWNER TO postgres;
+ALTER TABLE "ci-rt".minavgmax OWNER TO postgres;
 
 --
--- Name: tags; Type: TABLE; Schema: public; Owner: postgres
+-- Name: tags; Type: TABLE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE TABLE tags (
+CREATE TABLE "ci-rt".tags (
     id integer NOT NULL,
     git_id integer NOT NULL,
     commit character varying(40) NOT NULL,
@@ -650,13 +646,13 @@ CREATE TABLE tags (
 );
 
 
-ALTER TABLE tags OWNER TO postgres;
+ALTER TABLE "ci-rt".tags OWNER TO postgres;
 
 --
--- Name: overview; Type: VIEW; Schema: public; Owner: consumer
+-- Name: overview; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW overview AS
+CREATE VIEW "ci-rt".overview AS
  SELECT s.id,
     s.branch,
     s."timestamp",
@@ -667,19 +663,19 @@ CREATE VIEW overview AS
     t.git_id,
     g.path,
     g.public
-   FROM ((cirtscheduler s
-     JOIN tags t ON ((s.tags_id = t.id)))
-     JOIN git g ON ((t.git_id = g.id)))
+   FROM (("ci-rt".cirtscheduler s
+     JOIN "ci-rt".tags t ON ((s.tags_id = t.id)))
+     JOIN "ci-rt".git g ON ((t.git_id = g.id)))
   WHERE (s.processing = false);
 
 
-ALTER TABLE overview OWNER TO consumer;
+ALTER TABLE "ci-rt".overview OWNER TO consumer;
 
 --
--- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE SEQUENCE tags_id_seq
+CREATE SEQUENCE "ci-rt".tags_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -687,20 +683,20 @@ CREATE SEQUENCE tags_id_seq
     CACHE 1;
 
 
-ALTER TABLE tags_id_seq OWNER TO postgres;
+ALTER TABLE "ci-rt".tags_id_seq OWNER TO postgres;
 
 --
--- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
+ALTER SEQUENCE "ci-rt".tags_id_seq OWNED BY "ci-rt".tags.id;
 
 
 --
--- Name: target_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: target_id_seq; Type: SEQUENCE; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE SEQUENCE target_id_seq
+CREATE SEQUENCE "ci-rt".target_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -708,20 +704,20 @@ CREATE SEQUENCE target_id_seq
     CACHE 1;
 
 
-ALTER TABLE target_id_seq OWNER TO postgres;
+ALTER TABLE "ci-rt".target_id_seq OWNER TO postgres;
 
 --
--- Name: target_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: target_id_seq; Type: SEQUENCE OWNED BY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER SEQUENCE target_id_seq OWNED BY target.id;
+ALTER SEQUENCE "ci-rt".target_id_seq OWNED BY "ci-rt".target.id;
 
 
 --
--- Name: target_tests; Type: VIEW; Schema: public; Owner: consumer
+-- Name: target_tests; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW target_tests AS
+CREATE VIEW "ci-rt".target_tests AS
  SELECT c.id AS c_id,
     s.branch,
     t.name,
@@ -735,1035 +731,1027 @@ CREATE VIEW target_tests AS
     c.avg AS c_avg,
     c.max AS c_max,
     c.pass
-   FROM ((((cirtscheduler s
-     JOIN tags t ON ((s.tags_id = t.id)))
-     JOIN compiletest b ON ((s.id = b.cirtscheduler_id)))
-     JOIN boottest bt ON ((b.id = bt.compiletest_id)))
-     JOIN cyclictest c ON ((c.boottest_id = bt.id)));
+   FROM (((("ci-rt".cirtscheduler s
+     JOIN "ci-rt".tags t ON ((s.tags_id = t.id)))
+     JOIN "ci-rt".compiletest b ON ((s.id = b.cirtscheduler_id)))
+     JOIN "ci-rt".boottest bt ON ((b.id = bt.compiletest_id)))
+     JOIN "ci-rt".cyclictest c ON ((c.boottest_id = bt.id)));
 
 
-ALTER TABLE target_tests OWNER TO consumer;
+ALTER TABLE "ci-rt".target_tests OWNER TO consumer;
 
 --
--- Name: targetboot; Type: VIEW; Schema: public; Owner: consumer
+-- Name: targetboot; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW targetboot AS
+CREATE VIEW "ci-rt".targetboot AS
  SELECT b.id,
     b.compiletest_id AS build_id,
     t.shortdesc,
     b.bootdate,
     b.cmdline,
     b.pass
-   FROM (boottest b
-     JOIN target t ON ((b.target_id = t.id)));
+   FROM ("ci-rt".boottest b
+     JOIN "ci-rt".target t ON ((b.target_id = t.id)));
 
 
-ALTER TABLE targetboot OWNER TO consumer;
+ALTER TABLE "ci-rt".targetboot OWNER TO consumer;
 
 --
--- Name: targets; Type: VIEW; Schema: public; Owner: consumer
+-- Name: targets; Type: VIEW; Schema: "ci-rt"; Owner: consumer
 --
 
-CREATE VIEW targets AS
+CREATE VIEW "ci-rt".targets AS
  SELECT concat_ws(' '::text, l.arch, l.family) AS label,
     t.shortdesc AS descr,
     t.id AS t_id
-   FROM (target t
-     JOIN label l ON ((t.label_id = l.id)));
+   FROM ("ci-rt".target t
+     JOIN "ci-rt".label l ON ((t.label_id = l.id)));
 
 
-ALTER TABLE targets OWNER TO consumer;
-
---
--- Name: boottest id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY boottest ALTER COLUMN id SET DEFAULT nextval('boottest_id_seq'::regclass);
-
+ALTER TABLE "ci-rt".targets OWNER TO consumer;
 
 --
--- Name: cirtscheduler id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: boottest id; Type: DEFAULT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY cirtscheduler ALTER COLUMN id SET DEFAULT nextval('cirtscheduler_id_seq'::regclass);
+ALTER TABLE ONLY "ci-rt".boottest ALTER COLUMN id SET DEFAULT nextval('"ci-rt".boottest_id_seq'::regclass);
 
 
 --
--- Name: compiletest id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: cirtscheduler id; Type: DEFAULT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY compiletest ALTER COLUMN id SET DEFAULT nextval('compiletest_id_seq'::regclass);
-
-
---
--- Name: cyclictest id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY cyclictest ALTER COLUMN id SET DEFAULT nextval('cyclictest_id_seq'::regclass);
+ALTER TABLE ONLY "ci-rt".cirtscheduler ALTER COLUMN id SET DEFAULT nextval('"ci-rt".cirtscheduler_id_seq'::regclass);
 
 
 --
--- Name: git id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: compiletest id; Type: DEFAULT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY git ALTER COLUMN id SET DEFAULT nextval('git_id_seq'::regclass);
-
-
---
--- Name: histogram id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY histogram ALTER COLUMN id SET DEFAULT nextval('histogram_id_seq'::regclass);
+ALTER TABLE ONLY "ci-rt".compiletest ALTER COLUMN id SET DEFAULT nextval('"ci-rt".compiletest_id_seq'::regclass);
 
 
 --
--- Name: label id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: cyclictest id; Type: DEFAULT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY label ALTER COLUMN id SET DEFAULT nextval('label_id_seq'::regclass);
-
-
---
--- Name: tags id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY tags ALTER COLUMN id SET DEFAULT nextval('tags_id_seq'::regclass);
+ALTER TABLE ONLY "ci-rt".cyclictest ALTER COLUMN id SET DEFAULT nextval('"ci-rt".cyclictest_id_seq'::regclass);
 
 
 --
--- Name: target id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: git id; Type: DEFAULT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY target ALTER COLUMN id SET DEFAULT nextval('target_id_seq'::regclass);
+ALTER TABLE ONLY "ci-rt".git ALTER COLUMN id SET DEFAULT nextval('"ci-rt".git_id_seq'::regclass);
 
 
 --
--- Name: boottest boottest_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: histogram id; Type: DEFAULT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY boottest
+ALTER TABLE ONLY "ci-rt".histogram ALTER COLUMN id SET DEFAULT nextval('"ci-rt".histogram_id_seq'::regclass);
+
+
+--
+-- Name: label id; Type: DEFAULT; Schema: "ci-rt"; Owner: postgres
+--
+
+ALTER TABLE ONLY "ci-rt".label ALTER COLUMN id SET DEFAULT nextval('"ci-rt".label_id_seq'::regclass);
+
+
+--
+-- Name: tags id; Type: DEFAULT; Schema: "ci-rt"; Owner: postgres
+--
+
+ALTER TABLE ONLY "ci-rt".tags ALTER COLUMN id SET DEFAULT nextval('"ci-rt".tags_id_seq'::regclass);
+
+
+--
+-- Name: target id; Type: DEFAULT; Schema: "ci-rt"; Owner: postgres
+--
+
+ALTER TABLE ONLY "ci-rt".target ALTER COLUMN id SET DEFAULT nextval('"ci-rt".target_id_seq'::regclass);
+
+
+--
+-- Name: boottest boottest_pkey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
+--
+
+ALTER TABLE ONLY "ci-rt".boottest
     ADD CONSTRAINT boottest_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cirtbranch cirtbranch_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: cirtbranch cirtbranch_pkey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY cirtbranch
+ALTER TABLE ONLY "ci-rt".cirtbranch
     ADD CONSTRAINT cirtbranch_pkey PRIMARY KEY (id, testbranch);
 
 
 --
--- Name: cirtscheduler cirtscheduler_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: cirtscheduler cirtscheduler_pkey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY cirtscheduler
+ALTER TABLE ONLY "ci-rt".cirtscheduler
     ADD CONSTRAINT cirtscheduler_pkey PRIMARY KEY (id);
 
 
 --
--- Name: compiletest compiletest_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: compiletest compiletest_pkey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY compiletest
+ALTER TABLE ONLY "ci-rt".compiletest
     ADD CONSTRAINT compiletest_pkey PRIMARY KEY (id);
 
 
 --
--- Name: cyclictest cyclictest_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: cyclictest cyclictest_pkey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY cyclictest
+ALTER TABLE ONLY "ci-rt".cyclictest
     ADD CONSTRAINT cyclictest_pkey PRIMARY KEY (id);
 
 
 --
--- Name: git git_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: git git_pkey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY git
+ALTER TABLE ONLY "ci-rt".git
     ADD CONSTRAINT git_pkey PRIMARY KEY (id);
 
 
 --
--- Name: histogram histogram_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: histogram histogram_pkey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY histogram
+ALTER TABLE ONLY "ci-rt".histogram
     ADD CONSTRAINT histogram_pkey PRIMARY KEY (id);
 
 
 --
--- Name: histogram histogram_ukey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: histogram histogram_ukey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY histogram
+ALTER TABLE ONLY "ci-rt".histogram
     ADD CONSTRAINT histogram_ukey UNIQUE (thread, latency, cyclictest_id);
 
 
 --
--- Name: label label_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: label label_pkey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY label
+ALTER TABLE ONLY "ci-rt".label
     ADD CONSTRAINT label_pkey PRIMARY KEY (id);
 
 
 --
--- Name: minavgmax minavgmax_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: minavgmax minavgmax_pkey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY minavgmax
+ALTER TABLE ONLY "ci-rt".minavgmax
     ADD CONSTRAINT minavgmax_pkey PRIMARY KEY (cyclictest_id, thread);
 
 
 --
--- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY tags
+ALTER TABLE ONLY "ci-rt".tags
     ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
 
 
 --
--- Name: target target_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: target target_pkey; Type: CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY target
+ALTER TABLE ONLY "ci-rt".target
     ADD CONSTRAINT target_pkey PRIMARY KEY (id);
 
 
 --
--- Name: target target_ukey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: public_boottest_bootdate1_idx; Type: INDEX; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY target
-    ADD CONSTRAINT target_ukey UNIQUE (hostname);
+CREATE UNIQUE INDEX public_boottest_bootdate1_idx ON "ci-rt".boottest USING btree (bootdate, target_id);
 
 
 --
--- Name: public_boottest_bootdate1_idx; Type: INDEX; Schema: public; Owner: postgres
+-- Name: public_boottest_compiletest_id4_idx; Type: INDEX; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE UNIQUE INDEX public_boottest_bootdate1_idx ON boottest USING btree (bootdate, target_id);
+CREATE INDEX public_boottest_compiletest_id4_idx ON "ci-rt".boottest USING btree (compiletest_id);
 
 
 --
--- Name: public_boottest_compiletest_id4_idx; Type: INDEX; Schema: public; Owner: postgres
+-- Name: public_boottest_pass3_idx; Type: INDEX; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE INDEX public_boottest_compiletest_id4_idx ON boottest USING btree (compiletest_id);
+CREATE INDEX public_boottest_pass3_idx ON "ci-rt".boottest USING btree (pass);
 
 
 --
--- Name: public_boottest_pass3_idx; Type: INDEX; Schema: public; Owner: postgres
+-- Name: public_boottest_target_id2_idx; Type: INDEX; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE INDEX public_boottest_pass3_idx ON boottest USING btree (pass);
+CREATE INDEX public_boottest_target_id2_idx ON "ci-rt".boottest USING btree (target_id);
 
 
 --
--- Name: public_boottest_target_id2_idx; Type: INDEX; Schema: public; Owner: postgres
+-- Name: public_compiletest_cirtscheduler_id1_idx; Type: INDEX; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE INDEX public_boottest_target_id2_idx ON boottest USING btree (target_id);
+CREATE INDEX public_compiletest_cirtscheduler_id1_idx ON "ci-rt".compiletest USING btree (cirtscheduler_id);
 
 
 --
--- Name: public_compiletest_cirtscheduler_id1_idx; Type: INDEX; Schema: public; Owner: postgres
+-- Name: public_cyclictest_boottest_id1_idx; Type: INDEX; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE INDEX public_compiletest_cirtscheduler_id1_idx ON compiletest USING btree (cirtscheduler_id);
+CREATE INDEX public_cyclictest_boottest_id1_idx ON "ci-rt".cyclictest USING btree (boottest_id);
 
 
 --
--- Name: public_cyclictest_boottest_id1_idx; Type: INDEX; Schema: public; Owner: postgres
+-- Name: public_histogram_cyclictest_id1_idx; Type: INDEX; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE INDEX public_cyclictest_boottest_id1_idx ON cyclictest USING btree (boottest_id);
+CREATE INDEX public_histogram_cyclictest_id1_idx ON "ci-rt".histogram USING btree (cyclictest_id);
 
 
 --
--- Name: public_histogram_cyclictest_id1_idx; Type: INDEX; Schema: public; Owner: postgres
+-- Name: boottest boottest_compiletest_id_fkey; Type: FK CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE INDEX public_histogram_cyclictest_id1_idx ON histogram USING btree (cyclictest_id);
+ALTER TABLE ONLY "ci-rt".boottest
+    ADD CONSTRAINT boottest_compiletest_id_fkey FOREIGN KEY (compiletest_id) REFERENCES "ci-rt".compiletest(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
--- Name: boottest boottest_compiletest_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: boottest boottest_target_id_fkey; Type: FK CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY boottest
-    ADD CONSTRAINT boottest_compiletest_id_fkey FOREIGN KEY (compiletest_id) REFERENCES compiletest(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY "ci-rt".boottest
+    ADD CONSTRAINT boottest_target_id_fkey FOREIGN KEY (target_id) REFERENCES "ci-rt".target(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
--- Name: boottest boottest_target_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: cirtbranch cirtbranch_cirtscheduler_id_fkey; Type: FK CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY boottest
-    ADD CONSTRAINT boottest_target_id_fkey FOREIGN KEY (target_id) REFERENCES target(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY "ci-rt".cirtbranch
+    ADD CONSTRAINT cirtbranch_cirtscheduler_id_fkey FOREIGN KEY (cirtscheduler_id) REFERENCES "ci-rt".cirtscheduler(id);
 
 
 --
--- Name: cirtbranch cirtbranch_cirtscheduler_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: cirtscheduler cirtscheduler_commit_fkey; Type: FK CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY cirtbranch
-    ADD CONSTRAINT cirtbranch_cirtscheduler_id_fkey FOREIGN KEY (cirtscheduler_id) REFERENCES cirtscheduler(id);
+ALTER TABLE ONLY "ci-rt".cirtscheduler
+    ADD CONSTRAINT cirtscheduler_commit_fkey FOREIGN KEY (tags_id) REFERENCES "ci-rt".tags(id);
 
 
 --
--- Name: cirtscheduler cirtscheduler_commit_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: compiletest compiletest_cirtscheduler_id_fkey; Type: FK CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY cirtscheduler
-    ADD CONSTRAINT cirtscheduler_commit_fkey FOREIGN KEY (tags_id) REFERENCES tags(id);
+ALTER TABLE ONLY "ci-rt".compiletest
+    ADD CONSTRAINT compiletest_cirtscheduler_id_fkey FOREIGN KEY (cirtscheduler_id) REFERENCES "ci-rt".cirtscheduler(id);
 
 
 --
--- Name: compiletest compiletest_cirtscheduler_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: cyclictest cyclictest_boottest_id_fkey; Type: FK CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY compiletest
-    ADD CONSTRAINT compiletest_cirtscheduler_id_fkey FOREIGN KEY (cirtscheduler_id) REFERENCES cirtscheduler(id);
+ALTER TABLE ONLY "ci-rt".cyclictest
+    ADD CONSTRAINT cyclictest_boottest_id_fkey FOREIGN KEY (boottest_id) REFERENCES "ci-rt".boottest(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
--- Name: cyclictest cyclictest_boottest_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: histogram histogram_cyclictest_id_fkey; Type: FK CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY cyclictest
-    ADD CONSTRAINT cyclictest_boottest_id_fkey FOREIGN KEY (boottest_id) REFERENCES boottest(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY "ci-rt".histogram
+    ADD CONSTRAINT histogram_cyclictest_id_fkey FOREIGN KEY (cyclictest_id) REFERENCES "ci-rt".cyclictest(id);
 
 
 --
--- Name: histogram histogram_cyclictest_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: minavgmax minavgmax_cyclictest_id_fkey; Type: FK CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY histogram
-    ADD CONSTRAINT histogram_cyclictest_id_fkey FOREIGN KEY (cyclictest_id) REFERENCES cyclictest(id);
+ALTER TABLE ONLY "ci-rt".minavgmax
+    ADD CONSTRAINT minavgmax_cyclictest_id_fkey FOREIGN KEY (cyclictest_id) REFERENCES "ci-rt".cyclictest(id);
 
 
 --
--- Name: minavgmax minavgmax_cyclictest_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tags tags_git_id_fkey; Type: FK CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY minavgmax
-    ADD CONSTRAINT minavgmax_cyclictest_id_fkey FOREIGN KEY (cyclictest_id) REFERENCES cyclictest(id);
+ALTER TABLE ONLY "ci-rt".tags
+    ADD CONSTRAINT tags_git_id_fkey FOREIGN KEY (git_id) REFERENCES "ci-rt".git(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
--- Name: tags tags_git_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: target target_label_id_fkey; Type: FK CONSTRAINT; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY tags
-    ADD CONSTRAINT tags_git_id_fkey FOREIGN KEY (git_id) REFERENCES git(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE ONLY "ci-rt".target
+    ADD CONSTRAINT target_label_id_fkey FOREIGN KEY (label_id) REFERENCES "ci-rt".label(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
--- Name: target target_label_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: boottest; Type: ROW SECURITY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE ONLY target
-    ADD CONSTRAINT target_label_id_fkey FOREIGN KEY (label_id) REFERENCES label(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE "ci-rt".boottest ENABLE ROW LEVEL SECURITY;
 
-
---
--- Name: boottest; Type: ROW SECURITY; Schema: public; Owner: postgres
---
-
-ALTER TABLE boottest ENABLE ROW LEVEL SECURITY;
-
 --
--- Name: cirtbranch; Type: ROW SECURITY; Schema: public; Owner: postgres
+-- Name: cirtbranch; Type: ROW SECURITY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE cirtbranch ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "ci-rt".cirtbranch ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: cirtscheduler; Type: ROW SECURITY; Schema: public; Owner: postgres
+-- Name: cirtscheduler; Type: ROW SECURITY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE cirtscheduler ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "ci-rt".cirtscheduler ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: compiletest; Type: ROW SECURITY; Schema: public; Owner: postgres
+-- Name: compiletest; Type: ROW SECURITY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE compiletest ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "ci-rt".compiletest ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: boottest consumer_view; Type: POLICY; Schema: public; Owner: postgres
+-- Name: boottest consumer_view; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON boottest FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
+CREATE POLICY consumer_view ON "ci-rt".boottest FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
--- Name: compiletest consumer_view; Type: POLICY; Schema: public; Owner: postgres
+-- Name: compiletest consumer_view; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON compiletest FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
+CREATE POLICY consumer_view ON "ci-rt".compiletest FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
--- Name: cyclictest consumer_view; Type: POLICY; Schema: public; Owner: postgres
+-- Name: cyclictest consumer_view; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON cyclictest FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
+CREATE POLICY consumer_view ON "ci-rt".cyclictest FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
--- Name: git consumer_view; Type: POLICY; Schema: public; Owner: postgres
+-- Name: git consumer_view; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON git FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
+CREATE POLICY consumer_view ON "ci-rt".git FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
--- Name: histogram consumer_view; Type: POLICY; Schema: public; Owner: postgres
+-- Name: histogram consumer_view; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON histogram FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
+CREATE POLICY consumer_view ON "ci-rt".histogram FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
--- Name: cirtscheduler consumer_view; Type: POLICY; Schema: public; Owner: postgres
+-- Name: cirtscheduler consumer_view; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY consumer_view ON cirtscheduler FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
+CREATE POLICY consumer_view ON "ci-rt".cirtscheduler FOR SELECT TO consumer USING (((owner = ("current_user"())::text) OR (owner = 'consumer'::text)));
 
 
 --
--- Name: cyclictest; Type: ROW SECURITY; Schema: public; Owner: postgres
+-- Name: cyclictest; Type: ROW SECURITY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE cyclictest ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "ci-rt".cyclictest ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: git; Type: ROW SECURITY; Schema: public; Owner: postgres
+-- Name: git; Type: ROW SECURITY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE git ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "ci-rt".git ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: histogram; Type: ROW SECURITY; Schema: public; Owner: postgres
+-- Name: histogram; Type: ROW SECURITY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE histogram ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "ci-rt".histogram ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: cirtscheduler jenkins_all; Type: POLICY; Schema: public; Owner: postgres
+-- Name: cirtscheduler jenkins_all; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY jenkins_all ON cirtscheduler FOR ALL TO jenkins USING (true) WITH CHECK (true);
+CREATE POLICY jenkins_all ON "ci-rt".cirtscheduler FOR ALL TO jenkins USING (true) WITH CHECK (true);
 
 
 --
--- Name: cirtbranch jenkins_all; Type: POLICY; Schema: public; Owner: postgres
+-- Name: cirtbranch jenkins_all; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY jenkins_all ON cirtbranch FOR ALL TO jenkins USING (true) WITH CHECK (true);
+CREATE POLICY jenkins_all ON "ci-rt".cirtbranch FOR ALL TO jenkins USING (true) WITH CHECK (true);
 
 
 --
--- Name: boottest jenkins_all; Type: POLICY; Schema: public; Owner: postgres
+-- Name: boottest jenkins_all; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY jenkins_all ON boottest FOR ALL TO jenkins USING (true) WITH CHECK (true);
+CREATE POLICY jenkins_all ON "ci-rt".boottest FOR ALL TO jenkins USING (true) WITH CHECK (true);
 
 
 --
--- Name: compiletest jenkins_all; Type: POLICY; Schema: public; Owner: postgres
+-- Name: compiletest jenkins_all; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY jenkins_all ON compiletest FOR ALL TO jenkins USING (true) WITH CHECK (true);
+CREATE POLICY jenkins_all ON "ci-rt".compiletest FOR ALL TO jenkins USING (true) WITH CHECK (true);
 
 
 --
--- Name: cyclictest jenkins_all; Type: POLICY; Schema: public; Owner: postgres
+-- Name: cyclictest jenkins_all; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY jenkins_all ON cyclictest FOR ALL TO jenkins USING (true) WITH CHECK (true);
+CREATE POLICY jenkins_all ON "ci-rt".cyclictest FOR ALL TO jenkins USING (true) WITH CHECK (true);
 
 
 --
--- Name: git jenkins_all; Type: POLICY; Schema: public; Owner: postgres
+-- Name: git jenkins_all; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY jenkins_all ON git FOR ALL TO jenkins USING (true) WITH CHECK (true);
+CREATE POLICY jenkins_all ON "ci-rt".git FOR ALL TO jenkins USING (true) WITH CHECK (true);
 
 
 --
--- Name: histogram jenkins_all; Type: POLICY; Schema: public; Owner: postgres
+-- Name: histogram jenkins_all; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY jenkins_all ON histogram FOR ALL TO jenkins USING (true) WITH CHECK (true);
+CREATE POLICY jenkins_all ON "ci-rt".histogram FOR ALL TO jenkins USING (true) WITH CHECK (true);
 
 
 --
--- Name: minavgmax jenkins_all; Type: POLICY; Schema: public; Owner: postgres
+-- Name: minavgmax jenkins_all; Type: POLICY; Schema: "ci-rt"; Owner: postgres
 --
 
-CREATE POLICY jenkins_all ON minavgmax FOR ALL TO jenkins USING (true) WITH CHECK (true);
+CREATE POLICY jenkins_all ON "ci-rt".minavgmax FOR ALL TO jenkins USING (true) WITH CHECK (true);
 
 
 --
--- Name: minavgmax; Type: ROW SECURITY; Schema: public; Owner: postgres
+-- Name: minavgmax; Type: ROW SECURITY; Schema: "ci-rt"; Owner: postgres
 --
 
-ALTER TABLE minavgmax ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "ci-rt".minavgmax ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: postgres
+-- Name: SCHEMA "ci-rt"; Type: ACL; Schema: -; Owner: postgres
 --
 
-GRANT ALL ON SCHEMA public TO PUBLIC;
+GRANT ALL ON SCHEMA "ci-rt" TO PUBLIC;
 
 
 --
--- Name: boottest; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE boottest; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT ALL ON TABLE boottest TO jenkins;
+GRANT ALL ON TABLE "ci-rt".boottest TO jenkins;
 
 
 --
--- Name: boottest.id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN boottest.id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(id) ON TABLE boottest TO consumer;
+GRANT SELECT(id) ON TABLE "ci-rt".boottest TO consumer;
 
 
 --
--- Name: boottest.cmdline; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN boottest.cmdline; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(cmdline) ON TABLE boottest TO consumer;
+GRANT SELECT(cmdline) ON TABLE "ci-rt".boottest TO consumer;
 
 
 --
--- Name: boottest.pass; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN boottest.pass; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(pass) ON TABLE boottest TO consumer;
+GRANT SELECT(pass) ON TABLE "ci-rt".boottest TO consumer;
 
 
 --
--- Name: boottest.compiletest_id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN boottest.compiletest_id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(compiletest_id) ON TABLE boottest TO consumer;
+GRANT SELECT(compiletest_id) ON TABLE "ci-rt".boottest TO consumer;
 
 
 --
--- Name: boottest.target_id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN boottest.target_id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(target_id) ON TABLE boottest TO consumer;
+GRANT SELECT(target_id) ON TABLE "ci-rt".boottest TO consumer;
 
 
 --
--- Name: boottest.bootdate; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN boottest.bootdate; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(bootdate) ON TABLE boottest TO consumer;
+GRANT SELECT(bootdate) ON TABLE "ci-rt".boottest TO consumer;
 
 
 --
--- Name: boottest_id_seq; Type: ACL; Schema: public; Owner: postgres
+-- Name: SEQUENCE boottest_id_seq; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT,USAGE ON SEQUENCE boottest_id_seq TO jenkins;
+GRANT SELECT,USAGE ON SEQUENCE "ci-rt".boottest_id_seq TO jenkins;
 
 
 --
--- Name: compiletest; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE compiletest; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT ALL ON TABLE compiletest TO jenkins;
+GRANT ALL ON TABLE "ci-rt".compiletest TO jenkins;
 
 
 --
--- Name: compiletest.id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN compiletest.id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(id) ON TABLE compiletest TO consumer;
+GRANT SELECT(id) ON TABLE "ci-rt".compiletest TO consumer;
 
 
 --
--- Name: compiletest.custom_commit; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN compiletest.custom_commit; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(custom_commit) ON TABLE compiletest TO consumer;
+GRANT SELECT(custom_commit) ON TABLE "ci-rt".compiletest TO consumer;
 
 
 --
--- Name: compiletest.defconfig; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN compiletest.defconfig; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(defconfig) ON TABLE compiletest TO consumer;
+GRANT SELECT(defconfig) ON TABLE "ci-rt".compiletest TO consumer;
 
 
 --
--- Name: compiletest.overlay; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN compiletest."overlay"; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT("overlay") ON TABLE compiletest TO consumer;
+GRANT SELECT("overlay") ON TABLE "ci-rt".compiletest TO consumer;
 
 
 --
--- Name: compiletest.pass; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN compiletest.pass; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(pass) ON TABLE compiletest TO consumer;
+GRANT SELECT(pass) ON TABLE "ci-rt".compiletest TO consumer;
 
 
 --
--- Name: compiletest.cirtscheduler_id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN compiletest.cirtscheduler_id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(cirtscheduler_id) ON TABLE compiletest TO consumer;
+GRANT SELECT(cirtscheduler_id) ON TABLE "ci-rt".compiletest TO consumer;
 
 
 --
--- Name: compiletest.configname; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN compiletest.configname; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(configname) ON TABLE compiletest TO consumer;
+GRANT SELECT(configname) ON TABLE "ci-rt".compiletest TO consumer;
 
 
 --
--- Name: compiletest.arch; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN compiletest.arch; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(arch) ON TABLE compiletest TO consumer;
+GRANT SELECT(arch) ON TABLE "ci-rt".compiletest TO consumer;
 
 
 --
--- Name: compiletest.buildcmd; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN compiletest.buildcmd; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(buildcmd) ON TABLE compiletest TO consumer;
+GRANT SELECT(buildcmd) ON TABLE "ci-rt".compiletest TO consumer;
 
 
 --
--- Name: cirtbranch; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE cirtbranch; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT ALL ON TABLE cirtbranch TO jenkins;
+GRANT ALL ON TABLE "ci-rt".cirtbranch TO jenkins;
 
 
 --
--- Name: cirtbranch.id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cirtbranch.id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(id) ON TABLE cirtbranch TO consumer;
+GRANT SELECT(id) ON TABLE "ci-rt".cirtbranch TO consumer;
 
 
 --
--- Name: cirtbranch.testbranch; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cirtbranch.testbranch; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(testbranch) ON TABLE cirtbranch TO consumer;
+GRANT SELECT(testbranch) ON TABLE "ci-rt".cirtbranch TO consumer;
 
 
 --
--- Name: cirtbranch.commit; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cirtbranch.commit; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(commit) ON TABLE cirtbranch TO consumer;
+GRANT SELECT(commit) ON TABLE "ci-rt".cirtbranch TO consumer;
 
 
 --
--- Name: cirtbranch.cirtscheduler_id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cirtbranch.cirtscheduler_id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(cirtscheduler_id) ON TABLE cirtbranch TO consumer;
+GRANT SELECT(cirtscheduler_id) ON TABLE "ci-rt".cirtbranch TO consumer;
 
 
 --
--- Name: cirtscheduler; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE cirtscheduler; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT ALL ON TABLE cirtscheduler TO jenkins;
+GRANT ALL ON TABLE "ci-rt".cirtscheduler TO jenkins;
 
 
 --
--- Name: cirtscheduler.id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cirtscheduler.id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(id) ON TABLE cirtscheduler TO consumer;
+GRANT SELECT(id) ON TABLE "ci-rt".cirtscheduler TO consumer;
 
 
 --
--- Name: cirtscheduler.branch; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cirtscheduler.branch; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(branch) ON TABLE cirtscheduler TO consumer;
+GRANT SELECT(branch) ON TABLE "ci-rt".cirtscheduler TO consumer;
 
 
 --
--- Name: cirtscheduler.timestamp; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cirtscheduler."timestamp"; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT("timestamp") ON TABLE cirtscheduler TO consumer;
+GRANT SELECT("timestamp") ON TABLE "ci-rt".cirtscheduler TO consumer;
 
 
 --
--- Name: cirtscheduler.tags_id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cirtscheduler.tags_id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(tags_id) ON TABLE cirtscheduler TO consumer;
+GRANT SELECT(tags_id) ON TABLE "ci-rt".cirtscheduler TO consumer;
 
 
 --
--- Name: cirtscheduler.pass; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cirtscheduler.pass; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(pass) ON TABLE cirtscheduler TO consumer;
+GRANT SELECT(pass) ON TABLE "ci-rt".cirtscheduler TO consumer;
 
 
 --
--- Name: cirtscheduler.processing; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cirtscheduler.processing; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(processing) ON TABLE cirtscheduler TO consumer;
+GRANT SELECT(processing) ON TABLE "ci-rt".cirtscheduler TO consumer;
 
 
 --
--- Name: cirtscheduler_id_seq; Type: ACL; Schema: public; Owner: postgres
+-- Name: SEQUENCE cirtscheduler_id_seq; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT,USAGE ON SEQUENCE cirtscheduler_id_seq TO jenkins;
+GRANT SELECT,USAGE ON SEQUENCE "ci-rt".cirtscheduler_id_seq TO jenkins;
 
 
 --
--- Name: compiletest_id_seq; Type: ACL; Schema: public; Owner: postgres
+-- Name: SEQUENCE compiletest_id_seq; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT,USAGE ON SEQUENCE compiletest_id_seq TO jenkins;
+GRANT SELECT,USAGE ON SEQUENCE "ci-rt".compiletest_id_seq TO jenkins;
 
 
 --
--- Name: cyclictest; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE cyclictest; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT ALL ON TABLE cyclictest TO jenkins;
+GRANT ALL ON TABLE "ci-rt".cyclictest TO jenkins;
 
 
 --
--- Name: cyclictest.id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest.id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(id) ON TABLE cyclictest TO consumer;
+GRANT SELECT(id) ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: cyclictest.description; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest.description; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(description) ON TABLE cyclictest TO consumer;
+GRANT SELECT(description) ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: cyclictest.duration; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest.duration; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(duration) ON TABLE cyclictest TO consumer;
+GRANT SELECT(duration) ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: cyclictest.interval; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest."interval"; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT("interval") ON TABLE cyclictest TO consumer;
+GRANT SELECT("interval") ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: cyclictest.min; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest.min; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(min) ON TABLE cyclictest TO consumer;
+GRANT SELECT(min) ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: cyclictest.avg; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest.avg; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(avg) ON TABLE cyclictest TO consumer;
+GRANT SELECT(avg) ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: cyclictest.max; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest.max; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(max) ON TABLE cyclictest TO consumer;
+GRANT SELECT(max) ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: cyclictest.boottest_id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest.boottest_id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(boottest_id) ON TABLE cyclictest TO consumer;
+GRANT SELECT(boottest_id) ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: cyclictest.pass; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest.pass; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(pass) ON TABLE cyclictest TO consumer;
+GRANT SELECT(pass) ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: cyclictest.threshold; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest.threshold; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(threshold) ON TABLE cyclictest TO consumer;
+GRANT SELECT(threshold) ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: cyclictest.testscript; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest.testscript; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(testscript) ON TABLE cyclictest TO consumer;
+GRANT SELECT(testscript) ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: cyclictest.owner; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN cyclictest.owner; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(owner) ON TABLE cyclictest TO consumer;
+GRANT SELECT(owner) ON TABLE "ci-rt".cyclictest TO consumer;
 
 
 --
--- Name: target; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE target; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT ON TABLE target TO consumer;
-GRANT ALL ON TABLE target TO jenkins;
+GRANT ALL ON TABLE "ci-rt".target TO jenkins;
+GRANT SELECT ON TABLE "ci-rt".target TO consumer;
 
 
 --
--- Name: cyc_target; Type: ACL; Schema: public; Owner: consumer
+-- Name: TABLE cyc_target; Type: ACL; Schema: "ci-rt"; Owner: consumer
 --
 
-GRANT ALL ON TABLE cyc_target TO jenkins;
+GRANT ALL ON TABLE "ci-rt".cyc_target TO jenkins;
 
 
 --
--- Name: cyclictest_id_seq; Type: ACL; Schema: public; Owner: postgres
+-- Name: SEQUENCE cyclictest_id_seq; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT,USAGE ON SEQUENCE cyclictest_id_seq TO jenkins;
+GRANT SELECT,USAGE ON SEQUENCE "ci-rt".cyclictest_id_seq TO jenkins;
 
 
 --
--- Name: detail; Type: ACL; Schema: public; Owner: consumer
+-- Name: TABLE detail; Type: ACL; Schema: "ci-rt"; Owner: consumer
 --
 
-GRANT ALL ON TABLE detail TO jenkins;
+GRANT ALL ON TABLE "ci-rt".detail TO jenkins;
 
 
 --
--- Name: git; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE git; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT ALL ON TABLE git TO jenkins;
+GRANT ALL ON TABLE "ci-rt".git TO jenkins;
 
 
 --
--- Name: git.id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN git.id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(id) ON TABLE git TO consumer;
+GRANT SELECT(id) ON TABLE "ci-rt".git TO consumer;
 
 
 --
--- Name: git.path; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN git.path; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(path) ON TABLE git TO consumer;
+GRANT SELECT(path) ON TABLE "ci-rt".git TO consumer;
 
 
 --
--- Name: git.public; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN git.public; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(public) ON TABLE git TO consumer;
+GRANT SELECT("public") ON TABLE "ci-rt".git TO consumer;
 
 
 --
--- Name: git.httprepo; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN git.httprepo; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(httprepo) ON TABLE git TO consumer;
+GRANT SELECT(httprepo) ON TABLE "ci-rt".git TO consumer;
 
 
 --
--- Name: git_id_seq; Type: ACL; Schema: public; Owner: postgres
+-- Name: SEQUENCE git_id_seq; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT,USAGE ON SEQUENCE git_id_seq TO jenkins;
+GRANT SELECT,USAGE ON SEQUENCE "ci-rt".git_id_seq TO jenkins;
 
 
 --
--- Name: histogram; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE histogram; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT ALL ON TABLE histogram TO jenkins;
+GRANT ALL ON TABLE "ci-rt".histogram TO jenkins;
 
 
 --
--- Name: histogram.id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN histogram.id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(id) ON TABLE histogram TO consumer;
+GRANT SELECT(id) ON TABLE "ci-rt".histogram TO consumer;
 
 
 --
--- Name: histogram.thread; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN histogram.thread; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(thread) ON TABLE histogram TO consumer;
+GRANT SELECT(thread) ON TABLE "ci-rt".histogram TO consumer;
 
 
 --
--- Name: histogram.latency; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN histogram.latency; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(latency) ON TABLE histogram TO consumer;
+GRANT SELECT(latency) ON TABLE "ci-rt".histogram TO consumer;
 
 
 --
--- Name: histogram.count; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN histogram.count; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(count) ON TABLE histogram TO consumer;
+GRANT SELECT(count) ON TABLE "ci-rt".histogram TO consumer;
 
 
 --
--- Name: histogram.cyclictest_id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN histogram.cyclictest_id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(cyclictest_id) ON TABLE histogram TO consumer;
+GRANT SELECT(cyclictest_id) ON TABLE "ci-rt".histogram TO consumer;
 
 
 --
--- Name: histogram_id_seq; Type: ACL; Schema: public; Owner: postgres
+-- Name: SEQUENCE histogram_id_seq; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT,USAGE ON SEQUENCE histogram_id_seq TO jenkins;
+GRANT SELECT,USAGE ON SEQUENCE "ci-rt".histogram_id_seq TO jenkins;
 
 
 --
--- Name: label; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE label; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT ON TABLE label TO consumer;
-GRANT ALL ON TABLE label TO jenkins;
+GRANT ALL ON TABLE "ci-rt".label TO jenkins;
+GRANT SELECT ON TABLE "ci-rt".label TO consumer;
 
 
 --
--- Name: kbuild; Type: ACL; Schema: public; Owner: consumer
+-- Name: TABLE kbuild; Type: ACL; Schema: "ci-rt"; Owner: consumer
 --
 
-GRANT ALL ON TABLE kbuild TO jenkins;
+GRANT ALL ON TABLE "ci-rt".kbuild TO jenkins;
 
 
 --
--- Name: label_id_seq; Type: ACL; Schema: public; Owner: postgres
+-- Name: SEQUENCE label_id_seq; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT,USAGE ON SEQUENCE label_id_seq TO jenkins;
+GRANT SELECT,USAGE ON SEQUENCE "ci-rt".label_id_seq TO jenkins;
 
 
 --
--- Name: minavgmax; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE minavgmax; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT ALL ON TABLE minavgmax TO jenkins;
+GRANT ALL ON TABLE "ci-rt".minavgmax TO jenkins;
 
 
 --
--- Name: minavgmax.thread; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN minavgmax.thread; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(thread) ON TABLE minavgmax TO consumer;
+GRANT SELECT(thread) ON TABLE "ci-rt".minavgmax TO consumer;
 
 
 --
--- Name: minavgmax.cyclictest_id; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN minavgmax.cyclictest_id; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(cyclictest_id) ON TABLE minavgmax TO consumer;
+GRANT SELECT(cyclictest_id) ON TABLE "ci-rt".minavgmax TO consumer;
 
 
 --
--- Name: minavgmax.min; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN minavgmax.min; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(min) ON TABLE minavgmax TO consumer;
+GRANT SELECT(min) ON TABLE "ci-rt".minavgmax TO consumer;
 
 
 --
--- Name: minavgmax.avg; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN minavgmax.avg; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(avg) ON TABLE minavgmax TO consumer;
+GRANT SELECT(avg) ON TABLE "ci-rt".minavgmax TO consumer;
 
 
 --
--- Name: minavgmax.max; Type: ACL; Schema: public; Owner: postgres
+-- Name: COLUMN minavgmax.max; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT(max) ON TABLE minavgmax TO consumer;
+GRANT SELECT(max) ON TABLE "ci-rt".minavgmax TO consumer;
 
 
 --
--- Name: tags; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE tags; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT ON TABLE tags TO consumer;
-GRANT ALL ON TABLE tags TO jenkins;
+GRANT ALL ON TABLE "ci-rt".tags TO jenkins;
+GRANT SELECT ON TABLE "ci-rt".tags TO consumer;
 
 
 --
--- Name: overview; Type: ACL; Schema: public; Owner: consumer
+-- Name: TABLE overview; Type: ACL; Schema: "ci-rt"; Owner: consumer
 --
 
-GRANT ALL ON TABLE overview TO jenkins;
+GRANT ALL ON TABLE "ci-rt".overview TO jenkins;
 
 
 --
--- Name: tags_id_seq; Type: ACL; Schema: public; Owner: postgres
+-- Name: SEQUENCE tags_id_seq; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT,USAGE ON SEQUENCE tags_id_seq TO jenkins;
+GRANT SELECT,USAGE ON SEQUENCE "ci-rt".tags_id_seq TO jenkins;
 
 
 --
--- Name: target_id_seq; Type: ACL; Schema: public; Owner: postgres
+-- Name: SEQUENCE target_id_seq; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT,USAGE ON SEQUENCE target_id_seq TO jenkins;
+GRANT SELECT,USAGE ON SEQUENCE "ci-rt".target_id_seq TO jenkins;
 
 
 --
--- Name: targetboot; Type: ACL; Schema: public; Owner: consumer
+-- Name: TABLE targetboot; Type: ACL; Schema: "ci-rt"; Owner: consumer
 --
 
-GRANT ALL ON TABLE targetboot TO jenkins;
+GRANT ALL ON TABLE "ci-rt".targetboot TO jenkins;
 
 
 --
--- Name: targets; Type: ACL; Schema: public; Owner: consumer
+-- Name: TABLE targets; Type: ACL; Schema: "ci-rt"; Owner: consumer
 --
 
-GRANT ALL ON TABLE targets TO jenkins;
+GRANT ALL ON TABLE "ci-rt".targets TO jenkins;
 
 
 --
@@ -1774,10 +1762,10 @@ GRANT ALL ON TABLE targets TO jenkins;
 -- Add mantatory data entries for CI-RT Jenkins
 --
 
-COPY git (id, path, public, httprepo, owner) FROM stdin;
+COPY "ci-rt".git (id, path, public, httprepo, owner) FROM stdin;
 0	git path	f	http path	intern
 \.
 
-COPY tags (id, git_id, commit, name) FROM stdin;
+COPY "ci-rt".tags (id, git_id, commit, name) FROM stdin;
 0	0	0	dummy
 \.
