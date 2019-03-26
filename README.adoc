@@ -47,15 +47,17 @@ Change owner of a dataset
 To update the owner of a dataset of a specific test run, execute the
 update_owner script:
 
----
+----
 $ update_owner -u jenkins 4711 new_owner
 UPDATE 1
 UPDATE 1
 UPDATE 1
 UPDATE 2
----
+----
 
----
+online help:
+
+----
 $ update_owner -h
 CI-RT - update_owner
 
@@ -67,4 +69,4 @@ Options:
 	                     Instead print out the actual SQL statement.
      -u,     --user          database user
      -v,     --verbose       Make the script verbose
----
+----
