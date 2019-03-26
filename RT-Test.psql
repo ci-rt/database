@@ -116,7 +116,7 @@ ALTER SCHEMA "ci-rt" OWNER TO postgres;
 -- Name: SCHEMA "ci-rt"; Type: COMMENT; Schema: -; Owner: postgres
 --
 
-COMMENT ON SCHEMA "ci-rt" IS 'standard "ci-rt" schema';
+COMMENT ON SCHEMA "ci-rt" IS 'CI-RT standard schema';
 
 
 --
@@ -1205,11 +1205,13 @@ CREATE POLICY jenkins_all ON "ci-rt".minavgmax FOR ALL TO jenkins USING (true) W
 
 ALTER TABLE "ci-rt".minavgmax ENABLE ROW LEVEL SECURITY;
 
+
 --
 -- Name: SCHEMA "ci-rt"; Type: ACL; Schema: -; Owner: postgres
 --
 
-GRANT ALL ON SCHEMA "ci-rt" TO PUBLIC;
+GRANT USAGE ON SCHEMA "ci-rt" TO jenkins;
+GRANT USAGE ON SCHEMA "ci-rt" TO consumer;
 
 
 --
