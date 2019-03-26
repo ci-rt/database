@@ -70,3 +70,9 @@ Options:
      -u,     --user          database user
      -v,     --verbose       Make the script verbose
 ----
+
+[appendix]
+Database layout
+---------------
+
+image:RT-Test.png[ER model]
