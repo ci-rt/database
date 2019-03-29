@@ -1271,13 +1271,11 @@ CREATE POLICY jenkins_all ON "ci-rt".minavgmax FOR ALL TO jenkins USING (true) W
 
 ALTER TABLE "ci-rt".minavgmax ENABLE ROW LEVEL SECURITY;
 
-
 --
 -- Name: SCHEMA "ci-rt"; Type: ACL; Schema: -; Owner: postgres
 --
 
-GRANT USAGE ON SCHEMA "ci-rt" TO jenkins;
-GRANT USAGE ON SCHEMA "ci-rt" TO consumer;
+GRANT USAGE ON SCHEMA "ci-rt" TO PUBLIC;
 
 
 --
