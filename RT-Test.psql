@@ -47,6 +47,7 @@ DROP INDEX IF EXISTS "ci-rt".public_boottest_target_id2_idx;
 DROP INDEX IF EXISTS "ci-rt".public_boottest_pass3_idx;
 DROP INDEX IF EXISTS "ci-rt".public_boottest_compiletest_id4_idx;
 DROP INDEX IF EXISTS "ci-rt".public_boottest_bootdate1_idx;
+ALTER TABLE IF EXISTS ONLY "ci-rt".target DROP CONSTRAINT IF EXISTS target_ukey;
 ALTER TABLE IF EXISTS ONLY "ci-rt".target DROP CONSTRAINT IF EXISTS target_pkey;
 ALTER TABLE IF EXISTS ONLY "ci-rt".tags DROP CONSTRAINT IF EXISTS tags_pkey;
 ALTER TABLE IF EXISTS ONLY "ci-rt".minavgmax DROP CONSTRAINT IF EXISTS minavgmax_pkey;
@@ -986,6 +987,14 @@ ALTER TABLE ONLY "ci-rt".tags
 
 ALTER TABLE ONLY "ci-rt".target
     ADD CONSTRAINT target_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: target target_ukey; Type: CONSTRAINT; Schema: ci-rt; Owner: postgres
+--
+
+ALTER TABLE ONLY "ci-rt".target
+    ADD CONSTRAINT target_ukey UNIQUE (hostname);
 
 
 --
