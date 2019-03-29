@@ -1647,7 +1647,7 @@ GRANT SELECT(path) ON TABLE "ci-rt".git TO consumer;
 -- Name: COLUMN git.public; Type: ACL; Schema: "ci-rt"; Owner: postgres
 --
 
-GRANT SELECT("public") ON TABLE "ci-rt".git TO consumer;
+GRANT SELECT(public) ON TABLE "ci-rt".git TO consumer;
 
 
 --
